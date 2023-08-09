@@ -91,39 +91,39 @@ export class Product {
         this.price = price
         this.thumbnail = thumbnail
         this.code = code
-        this.stock = stock
-        this.id = Product.incrementarID()
+        this.stock = stock  
     }
-    //static significa metodo de clase
-    static incrementarID() {
-        if (this.idIncrement) { //Atributo de la clase. Si no existe, lo creo. Si existe, lo aumento en 1
-            this.idIncrement++ //Si existe, lo aumento en uno
-        } else {
-            this.idIncrement = 1 //Valor inicial
+   async cargar () {
+        await productManager.addProduct(product1)
+        timer:500
+        const product2 = new Product("Yogurt", "Natural", 400, "Sin imagen", "lac101", 20)
+        await productManager.addProduct(product2)
+        timer:500
+        const product3 = new Product("Queso", "Cremoso", 2000, "Sin imagen", "lac102", 20)
+        await productManager.addProduct(product3)
+        timer:500
+        const product4 = new Product("Manteca", "Natural", 400, "Sin imagen", "lac103", 20)
+        await productManager.addProduct(product4)
+        timer:500
+        const product5 = new Product("Margarina", "Untable", 300, "Sin imagen", "lac104", 20)
+        await productManager.addProduct(product5)
+        timer:500
+        const product6 = new Product("Costilla", "Novillito", 2000, "Sin imagen", "Asa100", 20)
+        await productManager.addProduct(product6)
+        timer:500
+        const product7 = new Product("Vacio", "Novillito", 2500, "Sin imagen", "Asa101", 20)
+        await productManager.addProduct(product7)
+        timer:500
+        const product8 = new Product("Tapa de Asado", "Novillito", 2000, "Sin imagen", "Asa102", 20)
+        await productManager.addProduct(product8)
+        timer:500
+        const product9 = new Product("Falda", "Novillito", 1500, "Sin imagen", "Asa103", 20)
+        await productManager.addProduct(product9)
+        timer:500
+        const product10 = new Product("Entrecot", "Novillito", 2000, "Sin imagen", "Asa104", 20)
+        await productManager.addProduct(product10)
         }
-        return this.idIncrement
     }
-}
-
-//const productManager = new ProductManager('./prueba.json')
-//const product1 = new Product("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", 25)
-//productManager.addProduct(product1)
-//const product2 = new Product("producto prueba", "Este es un producto prueba", 220, "Sin imagen", "abc124", 20)
-//productManager.addProduct(product2)
-//const product3 = new Product("producto prueba", "Este es un producto prueba", 220, "Sin imagen", "abc125", 20)
-//productManager.addProduct(product3)
-//export default ProductManager
-//productManager.getProducts();
-//productManager.addProduct(product1)
-//productManager.addProduct(product2)
-//productManager.getProducts();
-//productManager.getProductById(1);
-//productManager.deleteProduct(3)
-//productManager.getProducts();
-//productManager.updateProduct(1,{title: "zanahoria", description: "Este es un producto prueba", price: 200, thumbnail: "Sin imagen", code: "abc123", stock: 20})
-//productManager.deleteProduct(2)
-//console.log(productManager.getProductById(1))
-//productManager.getProducts();
-//productManager.deleteProduct(2)
-//console.log(productManager.getProducts())
-
+const productManager = new ProductManager('./src/products.json')
+const product1 = new Product("Leche", "Entera", 1000, "Sin imagen", "lac100", 20)
+product1.cargar()
