@@ -14,7 +14,7 @@ routerProd.get('/', async (req, res) => {
 
 })
 
-routerProd.get('/:id', async (req, res) => {
+routerProd.get('/p:id', async (req, res) => {
     const { id } = req.params
     const prod = await productManager.getProductById(parseInt(id))
 
@@ -35,7 +35,7 @@ routerProd.post('/', async (req, res) => {
     }
 })
 
-routerProd.put('/:id', async (req, res) => {
+routerProd.put('/p:id', async (req, res) => {
 
     const confirmacion = await productManager.updateProduct(req.params.id, req.body)
 
@@ -46,7 +46,7 @@ routerProd.put('/:id', async (req, res) => {
     }
 })
 
-routerProd.delete('/:id', async (req, res) => {
+routerProd.delete('/p:id', async (req, res) => {
 
     const confirmacion = await productManager.deleteProduct(req.params.id)
 
