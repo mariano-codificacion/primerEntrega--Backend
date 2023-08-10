@@ -1,15 +1,14 @@
 import { Router } from 'express'
-import {ProductManager} from '../controllers/productManager.js'
+import {CartManager} from '../controllers/cartManager.js'
 
 const cartProd = Router()
 
-const productManager = new ProductManager('./src/products.json')
-
+const cartManager = new CartManager('./src/carts.json')
 
 
 cartProd.get('/:cid', async (req, res) => {
     const { id } = req.params
-    const prod = await productManager.getProductById(parseInt(id))
+    const prod = await cartManager.getProductById(parseInt(id))
 
     if (prod){
         res.status(200).send(prod)
@@ -19,8 +18,15 @@ cartProd.get('/:cid', async (req, res) => {
 })
 
 cartProd.post('/:cid/product/:pid', async (req, res) => {
-    
+    const confirmacion = await cartManager.addProduct(req.body)
+
+    if (confirmacion){
+        res.status(200).send("Producto creado correctamente")
+    }else{
+        res.status(400).send("Producto ya existente")
+    }
 })
+
 
 
 
