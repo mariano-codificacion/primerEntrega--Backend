@@ -39,6 +39,7 @@ export class ProductManager {
         } else {
             product.id = prods[prods.length - 1].id + 1;
         }
+            product.status = true;
             prods.push(product)
             await fs.writeFile(this.path, JSON.stringify(prods))
             return true
@@ -57,7 +58,7 @@ export class ProductManager {
         }
     }
     
-    async updateProduct (id, { title, description, price, thumbnail, code, stock, }) {
+    async updateProduct (id, { title, description, price, status, thumbnail, code, stock, }) {
 
         let prods = JSON.parse(await fs.readFile(this.path, 'utf-8'));
 
@@ -68,6 +69,7 @@ export class ProductManager {
             prods[indice].title = title
             prods[indice].description = description
             prods[indice].price = price
+            prods[indice].status = status
             prods[indice].thumbnail = thumbnail
             prods[indice].code = code
             prods[indice].stock = stock
