@@ -1,7 +1,9 @@
 import express from 'express'
 import multer from 'multer'
+import {engine} from 'express-handlebars'
+
 import routerProd from './routes/products.routes.js'
-import cartProd from './routes/carts.routes.js'
+import routerCart from './routes/carts.routes.js'
 import { __dirname } from './path.js'
 import path from 'path'
 const PORT = 4000
@@ -25,6 +27,9 @@ const upload = multer ({storage: storage})
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true })) //URL extensas
+app.engine('handlebars', engine())
+app.set('view engine', 'handlebars')
+app.set('views', path.resolve(__dirname, '/views'))
 
 app.post('/upload', upload.single('product'), (req, res) => {
     console.log(req.file)
@@ -35,8 +40,14 @@ app.post('/upload', upload.single('product'), (req, res) => {
 //Routes
 app.use('/static', express.static(path.join(__dirname, '/public'))) //path.join() es una concatenacion de una manera mas optima que con el +
 app.use('/api/product', routerProd)
-app.use('/api/cart', cartProd)
+app.use('/api/cart', routerCart)
 console.log(path.join(__dirname, '/public'))
+//HBS
+app.get('/static', (req, res) => {
+    res.render("home", {
+        nombreUsuario: "Mariano"
+    })
+})
 
 //Server
 app.listen(PORT, () => {

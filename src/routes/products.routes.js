@@ -25,7 +25,7 @@ routerProd.get('/p:id', async (req, res) => {
     }
 })
 
-routerProd.post('/', async (req, res) => {
+routerProd.post('/p:id', async (req, res) => {
     const confirmacion = await productManager.addProduct(req.body)
 
     if (confirmacion){
