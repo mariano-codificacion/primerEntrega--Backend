@@ -1,11 +1,11 @@
 import { Router } from 'express'
 import {ProductManager} from '../controllers/productManager.js'
 
-const routerProd = Router()
+const routerProds = Router()
 
 const productManager = new ProductManager('./src/products.json')
 
-routerProd.get('/', async (req, res) => {
+routerProds.get('/', async (req, res) => {
     const { limit } = req.query
 
     const prods = await productManager.getProducts()
@@ -14,7 +14,7 @@ routerProd.get('/', async (req, res) => {
 
 })
 
-routerProd.get('/p:id', async (req, res) => {
+routerProds.get('/p:id', async (req, res) => {
     const { id } = req.params
     const prod = await productManager.getProductById(parseInt(id))
 
@@ -25,7 +25,7 @@ routerProd.get('/p:id', async (req, res) => {
     }
 })
 
-routerProd.post('/p:id', async (req, res) => {
+routerProds.post('/p:id', async (req, res) => {
     const confirmacion = await productManager.addProduct(req.body)
 
     if (confirmacion){
@@ -35,7 +35,7 @@ routerProd.post('/p:id', async (req, res) => {
     }
 })
 
-routerProd.put('/p:id', async (req, res) => {
+routerProds.put('/p:id', async (req, res) => {
 
     const confirmacion = await productManager.updateProduct(req.params.id, req.body)
 
@@ -46,7 +46,7 @@ routerProd.put('/p:id', async (req, res) => {
     }
 })
 
-routerProd.delete('/p:id', async (req, res) => {
+routerProds.delete('/p:id', async (req, res) => {
 
     const confirmacion = await productManager.deleteProduct(req.params.id)
 
@@ -57,4 +57,4 @@ routerProd.delete('/p:id', async (req, res) => {
     }
 })
 
-export default routerProd
+export default routerProds
