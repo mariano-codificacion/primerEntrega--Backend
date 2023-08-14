@@ -29,7 +29,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true })) //URL extensas
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
-app.set('views', path.resolve(__dirname, '/views'))
+app.set('views', path.resolve(__dirname, './views'))
 
 app.post('/upload', upload.single('product'), (req, res) => {
     console.log(req.file)
@@ -44,11 +44,27 @@ app.use('/api/carts', routerCarts)
 console.log(path.join(__dirname, '/public'))
 //HBS
 app.get('/static', (req, res) => {
-    res.render("home", {
-        nombreUsuario: "Mariano"
-    })
-})
+    const user = {
+        nombre: "mariano",
+        cargo: "alumno"
+    }
 
+    const cursos = [
+        { numCurso: "123", dia: "LyM", horario: "Noche" },
+        { numCurso: "456", dia: "MyJ", horario: "Tarde" },
+        { numCurso: "789", dia: "S", horario: "Mañana" }
+    ]
+
+    //Indicar que plantilla voy a utilizar
+    res.render("users", {
+        titulo: "Users",
+        usuario: user,
+        rutaCSS: "users.css",
+        isTutor: user.cargo == "Tutor",
+        cursos: cursos
+    })
+
+})
 //Server
 app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)
