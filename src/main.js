@@ -1,7 +1,7 @@
 import express from 'express'
 import multer from 'multer'
 import {engine} from 'express-handlebars'
-
+import {Server} from 'socket.io'
 import routerProds from './routes/products.routes.js'
 import routerCarts from './routes/carts.routes.js'
 import { __dirname } from './path.js'
@@ -9,6 +9,31 @@ import path from 'path'
 const PORT = 4000
 const app = express()
 
+//Server
+const server = app.listen(PORT, () => {
+    console.log(`Server on port ${PORT}`)
+})
+
+const io = new Server(server)
+
+//Conexion de Socket.io
+io.on("connection", (socket) => {{
+    console.log("Conexion con Socket.io")
+
+    
+    socket.on('mensaje', info => {
+        console.log(info)
+        socket.emit('respuesta', true)
+    })
+
+    socket.on('juego', (infoJuego) => {
+        if (infoJuego == "poker"){
+            console.log("Conexion a Poker")
+        }else{
+            console.log("Conexion a Truco")
+        }
+    })
+}})
 //Config
 
 const storage =multer.diskStorage({
@@ -64,8 +89,4 @@ app.get('/static', (req, res) => {
         cursos: cursos
     })
 
-})
-//Server
-app.listen(PORT, () => {
-    console.log(`Server on port ${PORT}`)
 })
