@@ -16,7 +16,17 @@ const server = app.listen(PORT, () => {
 
 const io = new Server(server)
 
+const mensajes = []
 //Conexion de Socket.io
+io.on("connection", (socket) => {
+    console.log("Conexion con Socket.io")
+    socket.on('mensaje', info => {
+        console.log(info)
+        mensajes.push(info)
+        io.emit('mensajes', mensajes)
+    })
+})
+/*
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
 
@@ -39,7 +49,7 @@ io.on("connection", (socket) => {
         socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
     })
 })
-
+*/
 //Config
 
 const storage =multer.diskStorage({
@@ -62,20 +72,16 @@ app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views', path.resolve(__dirname, './views'))
 
-app.post('/upload', upload.single('product'), (req, res) => {
-    console.log(req.file)
-    console.log(req.body)
-    res.status(200).send("Imagen cargada")
-})
-
 //Routes
 app.use('/static', express.static(path.join(__dirname, '/public'))) //path.join() es una concatenacion de una manera mas optima que con el +
 app.use('/api/products', routerProds)
 app.use('/api/carts', routerCarts)
 console.log(path.join(__dirname, '/public'))
+
+
 //HBS
 app.get('/static', (req, res) => {
-    const user = {
+ /*   const user = {
         nombre: "mariano",
         cargo: "alumno"
     }
@@ -87,7 +93,7 @@ app.get('/static', (req, res) => {
     ]
 
     //Indicar que plantilla voy a utilizar
-    /*
+    
     res.render("users", {
         titulo: "Users",
         usuario: user,
@@ -96,9 +102,21 @@ app.get('/static', (req, res) => {
         cursos: cursos
     })
     */
+   res.render ('chat', {
+    rutaCSS: "style",
+    rutaJS: "chat"
+   })
+
+/*
     res.render("realTimeProducts", {
         rutaCSS: "realTimeProducts",
         rutaJS: "realTimeProducts"
     })
-
+*/
 })
+app.post('/upload', upload.single('product'), (req, res) => {
+    console.log(req.file)
+    console.log(req.body)
+    res.status(200).send("Imagen cargada")
+})
+
