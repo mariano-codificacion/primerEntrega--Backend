@@ -6,15 +6,15 @@ const valInput = document.getElementById('chatBox')
 let user
 
 Swal.fire({
-    title: "Identificador de Usuario",
+    title: "Identificacion de usuario",
     text: "Por favor ingrese su nombre de usuario",
-
+    input: "text",
     inputValidator: (valor) => {
-        return valor && 'Ingrese un nombre de usuario valido'
+        return !valor && 'Ingrese un nombre de usuario valido'
     },
     allowOutsideClick: false
 }).then(resultado => {
-    user =resultado.value
+    user = resultado.value
     console.log(user)
 })
 
