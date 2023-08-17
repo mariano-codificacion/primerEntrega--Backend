@@ -17,23 +17,29 @@ const server = app.listen(PORT, () => {
 const io = new Server(server)
 
 //Conexion de Socket.io
-io.on("connection", (socket) => {{
+io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
 
-    
     socket.on('mensaje', info => {
         console.log(info)
-        socket.emit('respuesta', true)
+        socket.emit('respuesta', false)
     })
 
     socket.on('juego', (infoJuego) => {
-        if (infoJuego == "poker"){
+        if (infoJuego == "poker")
             console.log("Conexion a Poker")
-        }else{
+        else
             console.log("Conexion a Truco")
-        }
     })
-}})
+
+    socket.on('nuevoProducto', (prod) => {
+        console.log(prod)
+        //Deberia agregarse al txt o json mediante addProduct
+
+        socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
+    })
+})
+
 //Config
 
 const storage =multer.diskStorage({
@@ -81,12 +87,18 @@ app.get('/static', (req, res) => {
     ]
 
     //Indicar que plantilla voy a utilizar
+    /*
     res.render("users", {
         titulo: "Users",
         usuario: user,
         rutaCSS: "users.css",
         isTutor: user.cargo == "Tutor",
         cursos: cursos
+    })
+    */
+    res.render("realTimeProducts", {
+        rutaCSS: "realTimeProducts",
+        rutaJS: "realTimeProducts"
     })
 
 })
