@@ -1,14 +1,17 @@
 import express from 'express'
 import multer from 'multer'
-import {engine} from 'express-handlebars'
-import {Server} from 'socket.io'
+import { engine } from 'express-handlebars'
+import { Server } from 'socket.io'
 import routerProds from './routes/products.routes.js'
 import routerCarts from './routes/carts.routes.js'
 import { __dirname } from './path.js'
 import path from 'path'
+import { ProductManager } from './controllers/productManager.js'
+
 const PORT = 4000
 const app = express()
 
+const productManager = new ProductManager('./src/products.json')
 //Server
 const server = app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)
@@ -17,55 +20,67 @@ const server = app.listen(PORT, () => {
 const io = new Server(server)
 
 const mensajes = []
+
 //Conexion de Socket.io
+
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
+
     socket.on('mensaje', info => {
         console.log(info)
         mensajes.push(info)
         io.emit('mensajes', mensajes)
     })
 })
+
 /*
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
-
-    socket.on('mensaje', info => {
-        console.log(info)
-        socket.emit('respuesta', false)
-    })
-
-    socket.on('juego', (infoJuego) => {
-        if (infoJuego == "poker")
-            console.log("Conexion a Poker")
-        else
-            console.log("Conexion a Truco")
-    })
+    /*
+        socket.on('mensaje', info => {
+            console.log(info)
+            socket.emit('respuesta', false)
+        })
+    
+        socket.on('juego', (infoJuego) => {
+            if (infoJuego == "poker")
+                console.log("Conexion a Poker")
+            else
+                console.log("Conexion a Truco")
+        })
+    */
+io.on("connection", (socket) => {
+    console.log("Conexion con Socket.io")
 
     socket.on('nuevoProducto', (prod) => {
         console.log(prod)
         //Deberia agregarse al txt o json mediante addProduct
-
+        productManager.addProduct(prod)
         socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
     })
 })
-*/
+
+io.on("connection", async (socket) => {
+    console.log("Conexion con Socket.io")
+  
+      const listas = await productManager.getProducts()
+        socket.emit('lista', listas)
+})
+
 //Config
 
-const storage =multer.diskStorage({
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'src/public/img')
     },
-    filename: (req,file,cb) => {
+    filename: (req, file, cb) => {
         cb(null, `${Date.now()}${file.originalname}`)
         //agrego un numero aleatorio delante para que no se repita
     }
 })
-
-const upload = multer ({storage: storage})
+const upload = multer({ storage: storage })
 
 //Middlewares
-
 app.use(express.json())
 app.use(express.urlencoded({ extended: true })) //URL extensas
 app.engine('handlebars', engine())
@@ -78,42 +93,61 @@ app.use('/api/products', routerProds)
 app.use('/api/carts', routerCarts)
 console.log(path.join(__dirname, '/public'))
 
-
 //HBS
 app.get('/static', (req, res) => {
- /*   const user = {
-        nombre: "mariano",
-        cargo: "alumno"
-    }
 
-    const cursos = [
-        { numCurso: "123", dia: "LyM", horario: "Noche" },
-        { numCurso: "456", dia: "MyJ", horario: "Tarde" },
-        { numCurso: "789", dia: "S", horario: "Mañana" }
-    ]
-
-    //Indicar que plantilla voy a utilizar
+    /*   const user = {
+            nombre: "mariano",
+            cargo: "alumno"
+        }
     
-    res.render("users", {
-        titulo: "Users",
-        usuario: user,
-        rutaCSS: "users.css",
-        isTutor: user.cargo == "Tutor",
-        cursos: cursos
-    })
+        const cursos = [
+            { numCurso: "123", dia: "LyM", horario: "Noche" },
+            { numCurso: "456", dia: "MyJ", horario: "Tarde" },
+            { numCurso: "789", dia: "S", horario: "Mañana" }
+        ]
     */
-   res.render ('chat', {
-    rutaCSS: "style",
-    rutaJS: "chat"
-   })
+    /*
+        //Indicar que plantilla voy a utilizar
+        
+        res.render("users", {
+            titulo: "Users",
+            usuario: user,
+            rutaCSS: "users.css",
+            isTutor: user.cargo == "Tutor",
+            cursos: cursos
+        })
+    */
+    /*
+       res.render ('chat', {
+        rutaCSS: "style",
+        rutaJS: "chat"
+       })
+    */
 
-/*
     res.render("realTimeProducts", {
         rutaCSS: "realTimeProducts",
         rutaJS: "realTimeProducts"
     })
-*/
 })
+
+
+app.get('/static/realtimeproducts', (req, res) => {
+
+    res.render("home", {
+        rutaCSS: "home",
+        rutaJS: "home"
+    })
+})
+
+app.get('/static/chat', (req, res) => {
+
+    res.render("chat", {
+        rutaCSS: "style",
+        rutaJS: "chat"
+    })
+})
+
 app.post('/upload', upload.single('product'), (req, res) => {
     console.log(req.file)
     console.log(req.body)
