@@ -8,6 +8,9 @@ body {
 h1 {
     text-align: center;
 }
+#productos{
+    text-align: center;
+}
 
 form {
     max-width: 400px;

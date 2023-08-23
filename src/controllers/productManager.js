@@ -122,7 +122,7 @@ export class Product {
         const product5 = new Product("Margarina", "Untable", "lacteos", 300, true, "Sin imagen", "lac104", 20)
         await productManager.addProduct(product5)
         timer:500
-        const product6 = new Product("Costilla", "Novillito", "carnes", 2000, true, "Sin imagen", "Asa100", 20)
+        const product6 = new Product("Costilla", "Novillito", "carnes", 2000, true, "Sin imagen",  "Asa100", 20)
         await productManager.addProduct(product6)
         timer:500
         const product7 = new Product("Vacio", "Novillito", "carnes", 2500, true, "Sin imagen", "Asa101", 20)

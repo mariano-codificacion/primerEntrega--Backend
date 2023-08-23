@@ -1,3 +1,12 @@
 <h1>Lista de Productos</h1>
 <hr>
-<div id="productos"></div>
+<div id="productos">
+{{#each listaProds}}
+<div>
+    <p><h4>Nombre:{{this.title}}</h4> <h4>Descripcion: {{this.description}}</h4> <h4>Categoria:{{this.category}}</h4>
+         <h4>Price:{{this.price}}</h4> <h4>Stock:{{this.stock}}</h4> <h4>Code: {{this.code}}</h4> <h4>Status: {{this.status}}</h4>
+    <hr>
+    </p>
+</div>
+{{/each}}
+</div>

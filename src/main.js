@@ -52,19 +52,19 @@ io.on("connection", (socket) => {
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
 
-    socket.on('nuevoProducto', (prod) => {
+    socket.on('nuevoProducto', async (prod) => {
         console.log(prod)
         //Deberia agregarse al txt o json mediante addProduct
-        productManager.addProduct(prod)
+        await productManager.addProduct(prod)
         socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
+      
     })
 })
 
 io.on("connection", async (socket) => {
     console.log("Conexion con Socket.io")
-  
-      const listas = await productManager.getProducts()
-        socket.emit('lista', listas)
+    const listas = await productManager.getProducts()
+    socket.emit('lista', listas)
 })
 
 //Config
@@ -94,7 +94,7 @@ app.use('/api/carts', routerCarts)
 console.log(path.join(__dirname, '/public'))
 
 //HBS
-app.get('/static', (req, res) => {
+app.get('/static/realtimeproducts', (req, res) => {
 
     /*   const user = {
             nombre: "mariano",
@@ -132,11 +132,14 @@ app.get('/static', (req, res) => {
 })
 
 
-app.get('/static/realtimeproducts', (req, res) => {
+app.get('/static/home', async (req, res) => {
+
+    const listaProds = await productManager.getProducts()
 
     res.render("home", {
         rutaCSS: "home",
-        rutaJS: "home"
+        rutaJS: "home",
+        listaProds: listaProds
     })
 })
 
