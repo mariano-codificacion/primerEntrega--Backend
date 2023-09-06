@@ -7,7 +7,7 @@ const valInput = document.getElementById('chatBox')
 let correo
 
 Swal.fire({
-    title: 'Correo Electronico',
+    title: 'Bienvenidos al Chat de Socket.io',
   
 }).then(async resultado => {
     const { value: email } = await Swal.fire({

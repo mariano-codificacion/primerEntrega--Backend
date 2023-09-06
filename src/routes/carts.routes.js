@@ -55,4 +55,19 @@ cartsRouter.post('/:cid/products/:pid', async (req, res) => {
     }
 })
 
+cartsRouter.delete('/:cid', async (req, res) => {
+	const { cid } = req.params;
+	try {
+		const cart = await cartModel.findByIdAndDelete(cid);
+		if (cart){
+			res.status(200).send({ resultado: 'OK', message: cart })
+        }else{	
+            res.status(404).send({ resultado: 'Not Found', message: cart });
+        }
+	} catch (error) {
+		res.status(400).send({ error: `Error al eliminar carrito: ${error}` });
+	}
+});
+
+
 export default cartsRouter
