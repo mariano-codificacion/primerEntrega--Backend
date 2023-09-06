@@ -33,10 +33,10 @@ const mensajes = []
 
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
-    socket.on('mensaje', /*async*/ (info) => {
+    socket.on('mensaje', async (info) => {
         console.log(info)
         mensajes.push(info)
-       // await messageModel.create({info})
+       await messageModel.create(info)
         io.emit('mensajes', mensajes)
     })
 })
