@@ -2,14 +2,22 @@ import express from 'express'
 import multer from 'multer'
 import { engine } from 'express-handlebars'
 import { Server } from 'socket.io'
-import routerProds from './routes/products.routes.js'
+import productRouter from './routes/products.routes.js'
 import routerCarts from './routes/carts.routes.js'
 import { __dirname } from './path.js'
 import path from 'path'
 import { ProductManager } from './controllers/productManager.js'
+import mongoose from 'mongoose'
+import messageModel from './models/messages.models.js'
 
 const PORT = 4000
 const app = express()
+
+
+mongoose.connect('mongodb+srv://mariano140278:coderhouse@cluster0.n5dxhff.mongodb.net/?retryWrites=true&w=majority')
+    .then(() => console.log("DB conectada"))
+    .catch((error) => console.log("Error en conexion a MongoDB Atlas: ", error))
+
 
 const productManager = new ProductManager('./src/products.json')
 //Server
@@ -25,10 +33,10 @@ const mensajes = []
 
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
-
-    socket.on('mensaje', info => {
+    socket.on('mensaje', /*async*/ (info) => {
         console.log(info)
         mensajes.push(info)
+       // await messageModel.create(info)
         io.emit('mensajes', mensajes)
     })
 })
@@ -51,7 +59,6 @@ io.on("connection", (socket) => {
     */
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
-
     socket.on('nuevoProducto', async (prod) => {
         console.log(prod)
         //Deberia agregarse al txt o json mediante addProduct
@@ -89,7 +96,7 @@ app.set('views', path.resolve(__dirname, './views'))
 
 //Routes
 app.use('/static', express.static(path.join(__dirname, '/public'))) //path.join() es una concatenacion de una manera mas optima que con el +
-app.use('/api/products', routerProds)
+app.use('/api/products', productRouter)
 app.use('/api/carts', routerCarts)
 console.log(path.join(__dirname, '/public'))
 

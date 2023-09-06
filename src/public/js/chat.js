@@ -3,6 +3,7 @@ const socket = io()
 const botonChat = document.getElementById('botonChat')
 const parrafosMensajes = document.getElementById('parrafosMensajes')
 const valInput = document.getElementById('chatBox')
+
 let user
 
 Swal.fire({
@@ -17,7 +18,18 @@ Swal.fire({
     user = resultado.value
     console.log(user)
 })
-
+/*
+const { value: email } = await Swal.fire({
+    title: 'Input email address',
+    input: 'email',
+    inputLabel: 'Your email address',
+    inputPlaceholder: 'Enter your email address'
+  })
+  
+  if (email) {
+    Swal.fire(`Entered email: ${email}`)
+  }
+*/
 botonChat.addEventListener('click', () => {
     let fechaActual = new Date().toLocaleString()
     if (valInput.value.trim().length > 0) { //Evitar que me envien un mensaje vacio
@@ -27,7 +39,7 @@ botonChat.addEventListener('click', () => {
 })
 
 socket.on('mensajes', arrayMensajes => {
-    parrafosMensajes.innerHTML = "" //Limpio el html
+    parrafosMensajes.innerHTML = "" //Limio el html
     arrayMensajes.forEach(mensaje => {
         parrafosMensajes.innerHTML += `<p>${mensaje.fecha} : ${mensaje.user} escribio ${mensaje.mensaje}</p>`
     })
