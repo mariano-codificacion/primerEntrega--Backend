@@ -1,26 +1,58 @@
 import { Router } from 'express';
-import { CartManager } from '../controllers/cartManager.js';
+import cartModel from '../models/carts.models.js';
 
-const routerCarts = Router();
-const cartManager = new CartManager('./src/carts.json');
 
-routerCarts.get('/:cid', async (req, res) => {
+const cartsRouter = Router();
+
+cartsRouter.get('/', async (req, res) => {
+	const { limit } = req.query;
+	try {
+		const carts = await cartModel.find().limit(limit);
+		res.status(200).send({ resultado: OK, message: carts });
+	} catch (error) {
+		res.status(400).send({ error: `Error al consultar carritos: ${error}` });
+	}
+});
+
+cartsRouter.get('/:cid', async (req, res) => {
 	const { cid } = req.params;
-	const products = await cartManager.getProductByCart(parseInt(cid));
-	products ? res.status(200).send(products) : res.status(404).send('Carrito no existente');
+	try {
+		const cart = await cartModel.findById(cid);
+		if (cart) {
+		res.status(200).send({ resultado: OK, message: cart })
+		}else{
+		res.status(404).send({ resultado: 'Not Found', message: cart });
+		}
+	} catch (error) {
+		res.status(400).send({ error: `Error al consultar carrito: ${error}` });
+	}
 });
 
-routerCarts.post('/', async (req, res) => {
-	await cartManager.agregarCarrito();
-	res.status(200).send('Carrito creado correctamente');
-});
+cartsRouter.post ('/', async (req, res) => {
+	const { id_prod, quantity } = req.body
+    try {
+        const crearCarrito = await cartModel.create({
+           id_prod, quantity
+        })
+        res.status(200).send({ resultado: 'OK', message: crearCarrito })
+    } catch (error) {
+        res.status(400).send({ error: `Error al crear carrito:  ${error}` })
+    }
+})
 
-routerCarts.post('/:cid/product/:pid', async (req, res) => {
-	const { cid, pid } = req.params;
-	const confirmacion = await cartManager.addProdCart(parseInt(cid), parseInt(pid));
-	confirmacion
-		? res.status(200).send('Producto agregado correctamente')
-		: res.status(404).send('Carrito o producto inexistente');
-});
+cartsRouter.post('/:cid/products/:pid', async (req, res) => {
+    const { cid, pid } = req.params
+    const { quantity } = req.body
+    try {
+        const cart = await cartModel.findById(cid)
+        if (cart) {
+            cart.products.push({ id_prod: pid, quantity: quantity })
+            const respuesta = await cartModel.findByIdAndUpdate(cid, cart) //Actualizo el carrito de mi BDD con el nuevo producto
+            res.status(200).send({ respuesta: 'OK', mensaje: respuesta })
+        }
+    } catch (error) {
+        res.status(400).send({ error: error })
+    }
+})
 
-export default routerCarts;
+export default cartsRouter
