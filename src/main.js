@@ -36,7 +36,7 @@ io.on("connection", (socket) => {
     socket.on('mensaje', /*async*/ (info) => {
         console.log(info)
         mensajes.push(info)
-       // await messageModel.create(info)
+       // await messageModel.create({info})
         io.emit('mensajes', mensajes)
     })
 })
