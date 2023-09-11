@@ -1,3 +1,4 @@
+import 'dotenv/config' 
 import express from 'express'
 import multer from 'multer'
 import { engine } from 'express-handlebars'
@@ -13,8 +14,7 @@ import messageModel from './models/messages.models.js'
 const PORT = 4000
 const app = express()
 
-
-mongoose.connect('mongodb+srv://mariano140278:coderhouse@cluster0.n5dxhff.mongodb.net/?retryWrites=true&w=majority')
+mongoose.connect(process.env.MONGO_URL) 
     .then(() => console.log("DB conectada"))
     .catch((error) => console.log("Error en conexion a MongoDB Atlas: ", error))
 
