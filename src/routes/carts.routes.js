@@ -63,7 +63,7 @@ cartsRouter.put('/:cid/products/:pid', async (req, res) => {
 		if (cart) {
 			const prod = cart.find(prod => prod.id_prod == (pid))
 			if (prod) {
-				prod.quantity = quantity
+				cart.products.quantity = quantity
 				await cart.save();
 				res.status(200).send({ respuesta: 'OK', mensaje: `Cantidad Actualizada` })
 			} else {
@@ -78,22 +78,24 @@ cartsRouter.put('/:cid/products/:pid', async (req, res) => {
 
 cartsRouter.put('/:cid', async (req, res) => {
 	const { cid } = req.params;
-	const { updateProducts } = req.body;
+	const { putprod } = req.body;
 
 	try {
 		const cart = await cartModel.findById(cid);
-		updateProducts.forEach(prod => {
-			const prod = cart.products.find(cartProd => cartProd.id_prod == prod.id_prod);
-			if (prod) {
-				prod.quantity = prod.quantity;
-			} else {
-				cart.products.push(prod);
-			}
-		});
-		await cart.save();
-		cart
-			? res.status(200).send({ resultado: 'OK', message: cart })
-			: res.status(404).send({ resultado: 'Not Found', message: cart });
+		if (cart) {
+			putprod.forEach(product => {
+				const prod = cart.products.find(cartProd => cartProd.id_prod == prod.id_prod);
+				if (prod) {
+					cart.products.quantity = prod.quantity;
+				} else {
+					cart.products.push(prod);
+				}
+			});
+			await cart.save();
+			res.status(200).send({ resultado: 'OK', message: cart })
+		} else { 
+		res.status(404).send({ resultado: 'Cart Not Found', message: error });
+		}
 	} catch (error) {
 		res.status(400).send({ error: `Error al agregar productos: ${error}` });
 	}
