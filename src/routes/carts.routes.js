@@ -70,8 +70,9 @@ cartsRouter.put('/:cid/products/:pid', async (req, res) => {
 				res.status(404).send({ resultado: 'Product Not Found', message: error });
 				return
 			}
-		}
+		}else{
 		res.status(404).send({ resultado: 'Cart Not Found', message: error });
+		}
 	} catch (error) {
 		res.status(400).send({ error: error })
 	}
