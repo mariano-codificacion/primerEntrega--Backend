@@ -22,8 +22,8 @@ mongoose.connect(process.env.MONGO_URL)
         const resultado = await cartModel.find({ _id: "6501068fa08134a96ad13506" })
         //"64f7be67ee3d47232d0cd8b5"
         console.log(JSON.stringify(resultado))
-        const resultados = await productModel.paginate({ status: 'true' }, { limit: 5, page: 1, sort: {price: 'desc' }})
-        console.log(resultados)
+        //const resultados = await productModel.paginate({ status: 'true' }, { limit: 5, page: 1, sort: {price: 'desc' }})
+        //console.log(resultados)
     })
     .catch((error) => console.log("Error en conexion a MongoDB Atlas: ", error))
 

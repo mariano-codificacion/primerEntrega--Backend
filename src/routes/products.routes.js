@@ -1,23 +1,46 @@
 import { Router } from 'express';
 import productModel from '../models/products.models.js';
 //import ProductManager  from './controllers/productManager.js';
+import mongoose from 'mongoose'
 
 const productRouter = Router()
 
 //const productManager = new ProductManager('./src/products.json')
-
 productRouter.get('/', async (req, res) => {
-    const { limit } = req.query
+	const { limit, page, category, status  } = req.query;
+	
+	const options = {
+		limit: limit || 10,
+		page: page || 1,
+	};
+    const query = {};
+	category && (query.category = category);
+	status && (query.status = status);
+
+	try {
+		const prods = await productModel.paginate(query,options);
+		res.status(200).send({ resultado: 'OK', message: prods });
+	} catch (error) {
+		res.status(400).send({ error: `Error al consultar productos: ${error}` });
+	}
+});
+
+/*
+productRouter.get('/', async (req, res) => {
+    const {limit} = req.query
     try {
-        const prods = await productModel.find().limit(limit)
-        //const products = await productManager.getProducts()
-        const productos = products.slice(0, limit)
+       //if (!limit) {
+          //  limit = 5
+        
+        //}else{
+        const prods = await productModel.paginate({ limit: limit })
         res.status(200).send({ resultado: 'OK', message: prods })
+        
     } catch (error) {
         res.status(400).send({ error: `Error al consultar productos:  ${error}` })
     }
 })
-
+*/
 productRouter.get('/:id', async (req, res) => {
     const { id } = req.params
     try {
@@ -33,7 +56,7 @@ productRouter.get('/:id', async (req, res) => {
     }
 })
 
-productRouter.post ('/', async (req, res) => {
+productRouter.post('/', async (req, res) => {
     const { title, description, price, stock, category, code } = req.body
     //Verificacion de datos
     try {
@@ -48,7 +71,7 @@ productRouter.post ('/', async (req, res) => {
 })
 
 
-productRouter.put ('/:id', async (req, res) => {
+productRouter.put('/:id', async (req, res) => {
     const { id } = req.params
     const { title, description, price, stock, category, code } = req.body
     try {
@@ -70,11 +93,11 @@ productRouter.delete('/:id', async (req, res) => {
     try {
         //const confirmacion = await productManager.deleteProduct(req.params.id)
         const respuesta = await productModel.findByIdAndDelete(id)
-        if (respuesta){
-            res.status(200).send({ resultado: 'OK', message: respuesta})
-        }else{
-            res.status(404).send({ resultado: 'Not Found', message: respuesta})
-    }
+        if (respuesta) {
+            res.status(200).send({ resultado: 'OK', message: respuesta })
+        } else {
+            res.status(404).send({ resultado: 'Not Found', message: respuesta })
+        }
     } catch (error) {
         res.status(400).send({ error: `Error al eliminar producto: ${error}` })
     }

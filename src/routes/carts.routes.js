@@ -8,7 +8,7 @@ cartsRouter.get('/', async (req, res) => {
 	const { limit } = req.query;
 	try {
 		const carts = await cartModel.find().limit(limit);
-		res.status(200).send({ resultado: OK, message: carts });
+		res.status(200).send({ resultado: 'OK', message: carts });
 	} catch (error) {
 		res.status(400).send({ error: `Error al consultar carritos: ${error}` });
 	}
