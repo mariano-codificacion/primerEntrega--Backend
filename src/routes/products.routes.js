@@ -7,16 +7,28 @@ const productRouter = Router()
 
 //const productManager = new ProductManager('./src/products.json')
 productRouter.get('/', async (req, res) => {
-	const { limit, page, category, status  } = req.query;
+	const { limit, page, sort, category, status  } = req.query;
 	
+    let orden
+    if (sort == 'asc'){
+        orden = 'price'
+    }else if (sort == 'desc'){
+        orden = '-price'
+    }    
 	const options = {
 		limit: limit || 10,
 		page: page || 1,
+        sort: orden || null,
 	};
     const query = {};
-	category && (query.category = category);
-	status && (query.status = status);
 
+	if (category){ 
+    query.category = category;
+    }
+	if (status){ 
+    query.status = status;
+    }
+    
 	try {
 		const prods = await productModel.paginate(query,options);
 		res.status(200).send({ resultado: 'OK', message: prods });
