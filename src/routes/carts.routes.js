@@ -61,13 +61,14 @@ cartsRouter.put('/:cid/products/:pid', async (req, res) => {
 	try {
 		const cart = await cartModel.findById(cid)
 		if (cart) {
-			const prod = cart.find(prod => prod.id_prod == (pid))
+			const prod = cart.products.find(prod => prod.id_prod == (pid))
 			if (prod) {
-				cart.products.quantity = quantity
+				prod.quantity = quantity
 				await cart.save();
 				res.status(200).send({ respuesta: 'OK', mensaje: `Cantidad Actualizada` })
 			} else {
-				cart.products.push({ id_prod: pid, quantity: quantity });
+				res.status(404).send({ resultado: 'Product Not Found', message: error });
+				return
 			}
 		}
 		res.status(404).send({ resultado: 'Cart Not Found', message: error });
@@ -78,17 +79,17 @@ cartsRouter.put('/:cid/products/:pid', async (req, res) => {
 
 cartsRouter.put('/:cid', async (req, res) => {
 	const { cid } = req.params;
-	const { putprod } = req.body;
+	const putprod  = req.body;
 
 	try {
 		const cart = await cartModel.findById(cid);
 		if (cart) {
 			putprod.forEach(product => {
-				const prod = cart.products.find(cartProd => cartProd.id_prod == prod.id_prod);
+				const prod = cart.products.find(cartProd => cartProd.id_prod == product.id_prod);
 				if (prod) {
-					cart.products.quantity = prod.quantity;
+					prod.quantity = product.quantity;
 				} else {
-					cart.products.push(prod);
+					cart.products.push(product);
 				}
 			});
 			await cart.save();
@@ -106,7 +107,7 @@ cartsRouter.delete('/:cid/products/:pid', async (req, res) => {
 	try {
 		const cart = await cartModel.findById(cid)
 		if (cart) {
-			const indice = cart.findIndex(prod => prod.id_prod == (pid))
+			const indice = cart.products.findIndex(prod => prod.id_prod == (pid))
 			if (indice != -1) {
 				cart.products.splice(indice, 1)
 				cart.save()

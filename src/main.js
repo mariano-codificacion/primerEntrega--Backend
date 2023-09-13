@@ -1,4 +1,4 @@
-import 'dotenv/config' 
+import 'dotenv/config'
 import express from 'express'
 import multer from 'multer'
 import { engine } from 'express-handlebars'
@@ -7,19 +7,28 @@ import productRouter from './routes/products.routes.js'
 import cartsRouter from './routes/carts.routes.js'
 import { __dirname } from './path.js'
 import path from 'path'
-import { ProductManager } from './controllers/productManager.js'
+//import { ProductManager } from './controllers/productManager.js'
 import mongoose from 'mongoose'
+import productModel from './models/products.models.js';
 import messageModel from './models/messages.models.js'
-
+import cartModel from './models/carts.models.js';
 const PORT = 4000
 const app = express()
 
-mongoose.connect(process.env.MONGO_URL) 
-    .then(() => console.log("DB conectada"))
+mongoose.connect(process.env.MONGO_URL)
+    .then(async () => {
+        console.log("DB conectada")
+
+        const resultado = await cartModel.find({ _id: "6501068fa08134a96ad13506" })
+        //"64f7be67ee3d47232d0cd8b5"
+        console.log(JSON.stringify(resultado))
+        const resultados = await productModel.paginate({ status: 'true' }, { limit: 5, page: 1, sort: {price: 'desc' }})
+        console.log(resultados)
+    })
     .catch((error) => console.log("Error en conexion a MongoDB Atlas: ", error))
 
 
-const productManager = new ProductManager('./src/products.json')
+//const productManager = new ProductManager('./src/products.json')
 //Server
 const server = app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)
@@ -36,7 +45,7 @@ io.on("connection", (socket) => {
     socket.on('mensaje', async (info) => {
         console.log(info)
         mensajes.push(info)
-       await messageModel.create(info)
+        await messageModel.create(info)
         io.emit('mensajes', mensajes)
     })
 })
@@ -62,15 +71,15 @@ io.on("connection", (socket) => {
     socket.on('nuevoProducto', async (prod) => {
         console.log(prod)
         //Deberia agregarse al txt o json mediante addProduct
-        await productManager.addProduct(prod)
+        //await productManager.addProduct(prod)
         socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
-      
+
     })
 })
 
 io.on("connection", async (socket) => {
     console.log("Conexion con Socket.io")
-    const listas = await productManager.getProducts()
+    //const listas = await productManager.getProducts()
     socket.emit('lista', listas)
 })
 

@@ -1,16 +1,16 @@
 import { Router } from 'express';
-import { productModel } from '../models/products.models.js';
-import { ProductManager } from '../controllers/productManager.js';
+import productModel from '../models/products.models.js';
+//import ProductManager  from './controllers/productManager.js';
 
 const productRouter = Router()
 
-const productManager = new ProductManager('./src/products.json')
+//const productManager = new ProductManager('./src/products.json')
 
 productRouter.get('/', async (req, res) => {
     const { limit } = req.query
     try {
         const prods = await productModel.find().limit(limit)
-        const products = await productManager.getProducts()
+        //const products = await productManager.getProducts()
         const productos = products.slice(0, limit)
         res.status(200).send({ resultado: 'OK', message: prods })
     } catch (error) {
@@ -22,7 +22,7 @@ productRouter.get('/:id', async (req, res) => {
     const { id } = req.params
     try {
         const prod = await productModel.findById(id)
-        const producto = await productManager.getProductById(parseInt(id))
+        //const producto = await productManager.getProductById(parseInt(id))
         if (prod) {
             res.status(200).send({ resultado: 'OK', product: prod })
         } else {
@@ -37,7 +37,7 @@ productRouter.post ('/', async (req, res) => {
     const { title, description, price, stock, category, code } = req.body
     //Verificacion de datos
     try {
-        const confirmacion = await productManager.addProduct(req.body)
+        //const confirmacion = await productManager.addProduct(req.body)
         const respuesta = await productModel.create({
             title, description, price, stock, category, code
         })
@@ -52,7 +52,7 @@ productRouter.put ('/:id', async (req, res) => {
     const { id } = req.params
     const { title, description, price, stock, category, code } = req.body
     try {
-        const confirmacion = await productManager.updateProduct(req.params.id, req.body)
+        //const confirmacion = await productManager.updateProduct(req.params.id, req.body)
         const respuesta = await productModel.findByIdAndUpdate(id, { title, description, price, stock, category, code })
         if (respuesta) {
             res.status(200).send({ resultado: 'OK', message: respuesta, confirmacion })
@@ -68,7 +68,7 @@ productRouter.delete('/:id', async (req, res) => {
     const { id } = req.params
 
     try {
-        const confirmacion = await productManager.deleteProduct(req.params.id)
+        //const confirmacion = await productManager.deleteProduct(req.params.id)
         const respuesta = await productModel.findByIdAndDelete(id)
         if (respuesta){
             res.status(200).send({ resultado: 'OK', message: respuesta})
