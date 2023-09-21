@@ -15,6 +15,10 @@ const userSchema = new Schema({
         index: true,
         unique: true
     },
+    age: {
+        type: Number,
+        required: true
+    },
     password: {
         type: String,
         required: true
@@ -23,10 +27,6 @@ const userSchema = new Schema({
         type: String,
         default: 'user'
     },
-    age: {
-        type: Number,
-        required: true
-    }
 })
 
 export const userModel = model('users', userSchema)
