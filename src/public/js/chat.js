@@ -23,20 +23,7 @@ Swal.fire({
         correo = email
         console.log(correo)
 })
-/*
-const { value: email } = await Swal.fire({
-    title: 'Input email address',
-    input: 'email',
-    inputLabel: 'Your email address',
-    inputPlaceholder: 'Enter your email address'
-  })
-  
-  if (email) {
-    Swal.fire(`Entered email: ${email}`)
-  }
-    correo = resultado.value
-    console.log(correo)
-  */
+
 
 botonChat.addEventListener('click', () => {
     let fechaActual = new Date().toLocaleString()

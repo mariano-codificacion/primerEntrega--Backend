@@ -37,22 +37,7 @@ productRouter.get('/', async (req, res) => {
 	}
 });
 
-/*
-productRouter.get('/', async (req, res) => {
-    const {limit} = req.query
-    try {
-       //if (!limit) {
-          //  limit = 5
-        
-        //}else{
-        const prods = await productModel.paginate({ limit: limit })
-        res.status(200).send({ resultado: 'OK', message: prods })
-        
-    } catch (error) {
-        res.status(400).send({ error: `Error al consultar productos:  ${error}` })
-    }
-})
-*/
+
 productRouter.get('/:id', async (req, res) => {
     const { id } = req.params
     try {
