@@ -26,7 +26,7 @@ const userSchema = new Schema({
     rol: {
         type: String,
         default: 'user'
-    },
+    }
 })
 
 export const userModel = model('users', userSchema)
