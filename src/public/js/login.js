@@ -4,7 +4,7 @@ signIn.addEventListener("submit", (e)=>{
     const formData = new FormData(e.target);
     const login = Object.fromEntries(formData);
     console.log("Datos enviados", login);
-    fetch('/login',{
+    fetch('api/sessions/login',{
         method:"POST",
         body:formData
     })
