@@ -152,21 +152,17 @@ app.post('/upload', upload.single('product'), (req, res) => {
 //SESSIONS
 
 app.get('/static/register', async (req, res) => {
-    
+
     res.render("register", {
         rutaCSS: "register",
-        rutaJS: "register"
     })
-    })
-    
+})
+
 app.get('/static/login', async (req, res) => {
 
-   
-    
-res.render("login", {
-    rutaCSS: "login",
-    rutaJS: "login"
-})
+    res.render("login", {
+       
+        })
 })
 
 /*
@@ -179,7 +175,7 @@ app.get('/logout', (req, res) => {
         if (error)
             console.log(error)
         else
-            res.redirect('/')
+            res.redirect('/static/login')
     })
 })
 
@@ -187,15 +183,15 @@ app.get('/logout', (req, res) => {
 //res.redirect('/static/home?info=${user.first_name}') 
 
 app.get('/static/home', async (req, res) => {
-const products = await productModel.find().lean();
-const info = req.query.info;
+    const products = await productModel.find().lean();
+    const info = req.query.info;
 
-res.render("home", {
-rutaCSS: "home",
-rutaJS: "home",
-products: products,
-info: info,
-});
+    res.render("home", {
+        rutaCSS: "home",
+        rutaJS: "home",
+        products: products,
+        info: info,
+    });
 
 })
 

@@ -14,12 +14,14 @@ sessionRouter.post('/login', async (req, res) => {
 
         if (user) {
 
-            if (validatePassword (password, user.password)){
+            if (password == user.password){
                 req.session.login = true
-                res.status(200).send({ resultado: 'Login valido', message: user })
-                //res.redirect('ruta', 200, {'info': user}) Redireccion
+                //res.status(200).send({ resultado: 'Login valido', message: user })
+                res.redirect ('/static/home?info=' + user.first_name) 
+                
             } else {
                 res.status(401).send({ resultado: 'Unauthorized', message: user })
+              
             }
         } else {
             res.status(404).send({ resultado: 'Not Found', message: user })
