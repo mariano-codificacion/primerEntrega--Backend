@@ -102,17 +102,17 @@ app.use(session({ //Configuracion de la sesion de mi app
     resave: true,
     saveUninitialized: true
 }))
-/*
+
 function auth(req, res, next) {
     console.log(req.session.email)
 
-    if (req.session.email == "admin@admin.com" && req.session.password == "1234") {
+    if (req.session.email == "adminCoder@coder.com" && req.session.password == "adminCod3r123") {
         return next() //Continua con la ejecucion normal de la ruta
     }
 
     return res.send("No tenes acceso a este contenido")
 }
-*/
+
 app.use(express.urlencoded({ extended: true })) //URL extensas
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
@@ -133,6 +133,7 @@ app.get('/static/realtimeproducts', (req, res) => {
         rutaCSS: "realTimeProducts",
         rutaJS: "realTimeProducts"
     })
+    
 })
 
 app.get('/static/chat', (req, res) => {
@@ -161,15 +162,15 @@ app.get('/static/register', async (req, res) => {
 app.get('/static/login', async (req, res) => {
 
     res.render("login", {
-       
+        rutaCSS: "login",
         })
 })
 
-/*
+
 app.get('/admin', auth, (req, res) => {
-    res.send("Sos admin")
+    res.redirect('/static/realtimeproducts')
 })
-*/
+
 app.get('/logout', (req, res) => {
     req.session.destroy((error) => {
         if (error)
@@ -179,8 +180,6 @@ app.get('/logout', (req, res) => {
     })
 })
 
-
-//res.redirect('/static/home?info=${user.first_name}') 
 
 app.get('/static/home', async (req, res) => {
     const products = await productModel.find().lean();
