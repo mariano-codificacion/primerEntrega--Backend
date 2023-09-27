@@ -108,9 +108,10 @@ function auth(req, res, next) {
 
     if (req.session.email == "adminCoder@coder.com" && req.session.password == "adminCod3r123") {
         return next() //Continua con la ejecucion normal de la ruta
-    }
+    }else{
 
     return res.send("No tenes acceso a este contenido")
+}
 }
 
 app.use(express.urlencoded({ extended: true })) //URL extensas
@@ -184,7 +185,6 @@ app.get('/logout', (req, res) => {
 app.get('/static/home', async (req, res) => {
     const products = await productModel.find().lean();
     const info = req.query.info;
-
     res.render("home", {
         rutaCSS: "home",
         rutaJS: "home",
@@ -193,30 +193,3 @@ app.get('/static/home', async (req, res) => {
     });
 
 })
-
-/*
-//en la ruta home, accedo a ese dato por medio de const info=req.query.info; Luego la envio como lo hacia con products
-
-Son 4 views de handlebars: products/home, sign in(registrarse), login y logout
-
-Las view se crean como lo venimos haciendo, un pequeño formulario, para el caso de sign in con los campos que pide la ruta para crear el usuario. En el caso de la view login para lo que pide la ruta login.
-
-La vista products ya la tenemos creada, es donde renderizamos los productos por handlebars.
-
-Pueden tenerla como products o como home.
-
-Ruta Post de User.routes conecta con el formulario de sign in mediante la etiqueta HTML action en el formulario.
-
-Ruta Post de Sessions.routes conecta con el formulario de log in.
-
-Redireccionamiento:
-
-En la ruta post /login de sessions.routes,si el usuario se loguea correctamente, cambiar el res.send por res.redirect() para redirigir a la view products, Como lo explique por el chat de la tutoría.
-
-La vista products debe recibir la información que mandamos en el redirect y mostrarla como mensaje de bienvenida.
-
-La vista products también debe tener un botón de logout, que al hacer click redirija a /api/sessions/logout. Es puro JS ( en products.js, addEventListener al botón , y redirigir a la ruta logout de sessions.routes)
-
-Finalmente la ruta get /logout de sessions.routes, después de terminar la sesión, debe redirigir a la vista /static/login.
-
-*/

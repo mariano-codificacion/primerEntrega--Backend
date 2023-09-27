@@ -13,13 +13,12 @@ sessionRouter.post('/login', async (req, res) => {
         const user = await userModel.findOne({ email: email })
 
         if (user) {
-            if (req.session.email == "adminCoder@coder.com" && req.session.password == "adminCod3r123")
-            user.rol == 'admin'
+            
             if (password == user.password){
                
                 req.session.login = true
                 //res.status(200).send({ resultado: 'Login valido', message: user })
-                res.redirect ('/static/home?info=' + user.first_name) 
+                res.redirect ('/static/home?info=' + user.rol) 
                 
             } else {
                 res.status(401).send({ resultado: 'Unauthorized', message: user })

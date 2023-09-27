@@ -12,6 +12,7 @@ userRouter.post('/register', async (req, res) => {
         if (response.email == "adminCoder@coder.com" && response.password == "adminCod3r123"){
         response.rol = "admin"
         await response.save();
+        res.redirect ('/static/login') 
         }
         res.status(200).send({ mensaje: 'Usuario creado', respuesta: response })
     } catch (error) {
