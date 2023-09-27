@@ -7,12 +7,12 @@ const userRouter = Router()
 userRouter.post('/register', async (req, res) => {
     const { first_name, last_name, email, age, password} = req.body
     try {
-        //const hashPassword = createHash(password)
-        let response = await userModel.create({ first_name, last_name, email, age, password})
+        const hashPassword = createHash(password)
+        let response = await userModel.create({ first_name: first_name, last_name: last_name, email: email, age: age, password: hashPassword})
         if (response.email == "adminCoder@coder.com" && response.password == "adminCod3r123"){
         response.rol = "admin"
         await response.save();
-        res.redirect ('/static/login') 
+        //res.redirect ('/static/login') 
         }
         res.status(200).send({ mensaje: 'Usuario creado', respuesta: response })
     } catch (error) {
