@@ -17,6 +17,8 @@ import cartModel from './models/carts.models.js';
 import { userModel } from './models/users.models.js'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
+import initializePassport from './config/passport.js'
+import passport from 'passport'
 
 const PORT = 4000
 const app = express()
@@ -102,6 +104,9 @@ app.use(session({ //Configuracion de la sesion de mi app
     resave: true,
     saveUninitialized: true
 }))
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
 
 function auth(req, res, next) {
     console.log(req.session.email)
