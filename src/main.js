@@ -108,16 +108,7 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-function auth(req, res, next) {
-    console.log(req.session.email)
 
-    if (req.session.email == "adminCoder@coder.com" && req.session.password == "adminCod3r123") {
-        return next() //Continua con la ejecucion normal de la ruta
-    }else{
-
-    return res.send("No tenes acceso a este contenido")
-}
-}
 
 app.use(express.urlencoded({ extended: true })) //URL extensas
 app.engine('handlebars', engine())
@@ -173,9 +164,7 @@ app.get('/static/login', async (req, res) => {
 })
 
 
-app.get('/admin', auth, (req, res) => {
-    res.redirect('/static/realtimeproducts')
-})
+
 
 app.get('/logout', (req, res) => {
     req.session.destroy((error) => {

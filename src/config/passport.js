@@ -1,4 +1,4 @@
-import local from 'passport'
+import local from 'passport-local'
 import passport from 'passport'
 import GithubStrategy from 'passport-github2'
 import { createHash, validatePassword } from '../utils/bcrypt.js'
@@ -9,7 +9,7 @@ const LocalStrategy = local.Strategy
 const initializePassport = () => {
 
     passport.use('register', new LocalStrategy(
-        { passReqToCallback: true, usernameField: 'email' }, async (req, username, passport, done) => {
+        { passReqToCallback: true, usernameField: 'email' }, async (req, username, password, done) => {
         
             const { first_name, last_name, email, age } = req.body
 
@@ -27,9 +27,15 @@ const initializePassport = () => {
                     age: age,
                     password: passwordHash
                 })
+                /*
+                if (userCreated.email == "adminCoder@coder.com" && userCreated.password == "adminCod3r123"){
+                    userCreated.rol = 'admin'
+                    await userCreated.save();
+                }
+                */
                 console.log(userCreated)
                 return done(null, userCreated)
-
+                
             } catch (error) {
                 return done(error)
             }
