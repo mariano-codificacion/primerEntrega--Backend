@@ -81,18 +81,6 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-//Routes
-app.use('/', router)
-
-app.use(express.urlencoded({ extended: true })) //URL extensas
-app.engine('handlebars', engine())
-app.set('view engine', 'handlebars')
-app.set('views', path.resolve(__dirname, './views'))
-
-//Routes
-app.use('/static', express.static(path.join(__dirname, '/public'))) //path.join() es una concatenacion de una manera mas optima que con el +
-
-console.log(path.join(__dirname, '/public'))
 
 //HBS
 app.get('/static/realtimeproducts', (req, res) => {
@@ -154,3 +142,19 @@ app.get('/static/home', async (req, res) => {
     });
 
 })
+
+//Routes
+
+
+app.use(express.urlencoded({ extended: true })) //URL extensas
+app.engine('handlebars', engine())
+app.set('view engine', 'handlebars')
+app.set('views', path.resolve(__dirname, './views'))
+
+//Routes
+app.use('/static', express.static(path.join(__dirname, '/public'))) //path.join() es una concatenacion de una manera mas optima que con el +
+
+console.log(path.join(__dirname, '/public'))
+
+app.use('/', router)
+
