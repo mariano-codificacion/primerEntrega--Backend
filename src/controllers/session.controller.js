@@ -1,3 +1,5 @@
+import { generateToken } from "../utils/jwt.js"
+
 export const postSession = async (req, res) => {
     try {
         if (!req.user) {
