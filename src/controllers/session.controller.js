@@ -39,13 +39,6 @@ export const getCurrent = async (req, res) => {
     res.send(req.user)
 }
 
-export const getTicket = async (req, res) => {
-    //const { cid } = req.params;
-    const {user} = req.user
-    
-    console.log("User:", user.cart)
-    //res.send(req.user)
-}
 
 export const getGitHub = async (req, res) => {
     res.redirect('/static/home?info=' + req.user.rol)

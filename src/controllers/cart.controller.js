@@ -146,9 +146,9 @@ export const ticketCart = async (req, res) => {
 			const email = user[0].email;
 			let amount = 0;
 			cart.products.forEach(async product => {
-				const prod = products.find(cartProd => cartProd.id_prod == product.id_prod.toString());
+				const prod = products.find(cartProd => cartProd._id == product.id_prod.toString());
 				if (prod) {
-					if (prod.stock <= product.quantity) {
+					if (prod.stock >= product.quantity) {
 						prod.stock = product.quantity - prod.quantity
 						amount += prod.price * product.quantity;
 						await prod.save();
@@ -160,6 +160,7 @@ export const ticketCart = async (req, res) => {
 					res.status(404).send({ resultado: 'Not Found', message: cart });
 				}
 			})
+			res.status(200).send({ resultado: 'OK', message: cart })
 			await cartModel.findByIdAndUpdate(cid, { products: [] });
 		}else{
 		res.status(400).send({ error: `Error al buscar el carrito: ${error}` });
@@ -168,39 +169,3 @@ export const ticketCart = async (req, res) => {
 		res.status(400).send({ error: `Error al finalizar la compra: ${error}` });
 	}
 }
-/*
-const purchaseCart = async (req, res) => {
-	const { cid } = req.params;
-	try {
-		const cart = await cartModel.findById(cid);
-		const products = await productModel.find();
-
-		if (cart) {
-			const user = await userModel.find({ cart: cart._id });
-			const email = user[0].email;
-			let amount = 0;
-			const purchaseItems = [];
-			cart.products.forEach(async item => {
-				const product = products.find(prod => prod._id == item.id_prod.toString());
-				if (product.stock >= item.quantity) {
-					amount += product.price * item.quantity;
-					product.stock -= item.quantity;
-					await product.save();
-					purchaseItems.push(product.title);
-				}
-				//ticket?info=${amount}
-			});
-			console.log(purchaseItems);
-			await cartModel.findByIdAndUpdate(cid, { products: [] });
-			res.redirect(
-				`http://localhost:8080/api/tickets/create?amount=${amount}&email=${email}`
-			);
-		} else {
-			res.status(404).send({ resultado: 'Not Found', message: cart });
-		}
-	} catch (error) {
-		res.status(400).send({ error: `Error al consultar carrito: ${error}` });
-	}
-};
-*/
-
