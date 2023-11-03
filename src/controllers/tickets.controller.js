@@ -1,7 +1,7 @@
 import ticketModel from '../models/tickets.models.js';
 import { v4 as uuidv4 } from 'uuid';
 
-const getTickets = async (req, res) => {
+export const getTickets = async (req, res) => {
 	try {
 		const response = await ticketModel.find();
 
@@ -10,7 +10,7 @@ const getTickets = async (req, res) => {
 		res.status(500).send({ mensaje: `Error al consultar tickets ${error}` });
 	}
 };
-const createTicket = async (req, res) => {
+export const createTicket = async (req, res) => {
 	const { amount, email } = req.query;
 	try {
 		const ticket = {
