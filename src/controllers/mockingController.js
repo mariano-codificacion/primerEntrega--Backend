@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import Product from '../models/products.models.js';
+import productModel from '../models/products.models.js';
 
 export const generateMockProducts = async (req, res) => {
     try {
@@ -15,7 +15,7 @@ export const generateMockProducts = async (req, res) => {
                 thumbnails: [faker.image.avatar()]
             };
             
-            const newProduct = await Product.create(productData);
+            const newProduct = await productModel.create(productData);
         }
         res.json({ message: 'Productos de prueba creados exitosamente' });
     } catch (error) {
