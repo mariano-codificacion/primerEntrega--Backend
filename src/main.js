@@ -13,6 +13,7 @@ import initializePassport from './config/passport.js'
 import passport from 'passport'
 import cookieParser from 'cookie-parser'
 import router from './routes/index.routes.js'
+import handlerErrors from './middlewares/errors/handlerErrors.js'
 
 const PORT = 4000
 const app = express()

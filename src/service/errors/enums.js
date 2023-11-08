@@ -1,9 +1,7 @@
 const EErrors = {
-    MISSING_REQUIRED_FIELDS: {
-        name: "MissingFieldsError",
-        message: "Faltan campos requeridos",
-        code: 400
+    INVALID_USER_ERROR: 1,
+    INVALID_PRODUCT_ERROR:2,
     }
-}
+
 
 export default EErrors;

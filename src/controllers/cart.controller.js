@@ -145,12 +145,12 @@ export const ticketCart = async (req, res) => {
 			const user = await userModel.find({ cart: cart._id });
 			const email = user[0].email;
 			let amount = 0;
-			cart.products.forEach(async product => {
-				const prod = products.find(cartProd => cartProd._id == product.id_prod.toString());
+			cart.products.forEach(async cartProd => {
+				const prod = products.find(arrayProd => arrayProd._id == cartProd.id_prod.toString());
 				if (prod) {
-					if (prod.stock >= product.quantity) {
-						prod.stock = product.quantity - prod.quantity
-						amount += prod.price * product.quantity;
+					if (prod.stock >= cartProd.quantity) {
+						prod.stock = cartProd.quantity - prod.quantity
+						amount += prod.price * cartProd.quantity;
 						await prod.save();
 						res.status(200).send({ resultado: 'OK', message: cart })
 					} else {

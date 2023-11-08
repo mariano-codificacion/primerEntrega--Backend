@@ -1,4 +1,4 @@
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import Product from '../models/products.models.js';
 
 export const generateMockProducts = async (req, res) => {
@@ -7,12 +7,12 @@ export const generateMockProducts = async (req, res) => {
             const productData = {
                 title: faker.commerce.productName(),
                 description: faker.commerce.productDescription(),
-                price: faker.commerce.price(),
-                stock: faker.datatype.number({ min: 10, max: 100 }),
+                price: faker.commerce.price({ min: 100, max: 200 }),
+                stock: faker.number.int({ min: 10, max: 100 }),
                 category: faker.commerce.department(),
                 status: true,
-                code: faker.random.alphaNumeric(10),
-                thumbnails: [faker.image.imageUrl()]
+                code: faker.string.alphaNumeric(10),
+                thumbnails: [faker.image.avatar()]
             };
             
             const newProduct = await Product.create(productData);
