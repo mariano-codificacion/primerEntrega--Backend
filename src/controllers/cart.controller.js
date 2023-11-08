@@ -160,8 +160,10 @@ export const ticketCart = async (req, res) => {
 					res.status(404).send({ resultado: 'Not Found', message: cart });
 				}
 			})
-			res.status(200).send({ resultado: 'OK', message: cart })
 			await cartModel.findByIdAndUpdate(cid, { products: [] });
+			res.redirect(
+				`http://localhost:4000/api/tickets/create?amount=${amount}&email=${email}`
+			);
 		}else{
 		res.status(400).send({ error: `Error al buscar el carrito: ${error}` });
 		}
