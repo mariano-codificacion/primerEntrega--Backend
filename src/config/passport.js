@@ -5,6 +5,7 @@ import GithubStrategy from 'passport-github2'
 import { createHash, validatePassword } from '../utils/bcrypt.js'
 import  userModel  from '../models/users.models.js'
 import jwt from 'passport-jwt'
+import { logger } from '../utils/logger.js'
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy
@@ -30,6 +31,7 @@ const initializePassport = () => {
             console.log(jwt_payload)
             return done(null, jwt_payload) //Retorno el contenido del token
         } catch (error) {
+            logger.error(error)
             return done(error)
         }
 
@@ -58,6 +60,7 @@ const initializePassport = () => {
                 return done(null, userCreated)
 
             } catch (error) {
+                logger.error(error)
                 return done(error)
             }
 
@@ -80,6 +83,7 @@ const initializePassport = () => {
             return done(null, false) //Contraseña no valida
 
         } catch (error) {
+            logger.error(error)
             return done(error)
         }
 

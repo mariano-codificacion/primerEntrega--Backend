@@ -4,11 +4,13 @@ import { passportError, authorization } from '../utils/messageErrors.js';
 import CustomError from '../service/errors/customError.js';
 import { generateProductErrorInfo } from '../service/errors/info.js';
 import EErrors from '../service/errors/enums.js';
+import  {requestLogger}  from '../middlewares/loggers/requestLogger.js';
+
 const productRouter = Router()
 
 productRouter.get('/', getProducts)
 productRouter.get('/:id', getProduct)
-productRouter.post('/', (req, res, next) => {
+productRouter.post('/', requestLogger ,(req, res, next) => {
     const { title, description, code, price, stock, category } = req.body
     try {
         if (!title || !description || !code || !price || !stock || !category) {
