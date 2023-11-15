@@ -31,7 +31,7 @@ const initializePassport = () => {
             console.log(jwt_payload)
             return done(null, jwt_payload) //Retorno el contenido del token
         } catch (error) {
-            logger.error(error)
+            logger.error(`[ERROR][${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}] Ha ocurrido un error: ${error.message}`)
             return done(error)
         }
 
@@ -60,7 +60,7 @@ const initializePassport = () => {
                 return done(null, userCreated)
 
             } catch (error) {
-                logger.error(error)
+                logger.error(`[ERROR][${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}] Ha ocurrido un error: ${error.message}`)
                 return done(error)
             }
 
@@ -83,7 +83,7 @@ const initializePassport = () => {
             return done(null, false) //Contraseña no valida
 
         } catch (error) {
-            logger.error(error)
+            logger.error(`[ERROR][${new Date().toLocaleDateString()} - ${new Date().toLocaleTimeString()}] Ha ocurrido un error: ${error.message}`)
             return done(error)
         }
 
