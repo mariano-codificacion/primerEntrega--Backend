@@ -5,7 +5,7 @@ import GithubStrategy from 'passport-github2'
 import { createHash, validatePassword } from '../utils/bcrypt.js'
 import  userModel  from '../models/users.models.js'
 import jwt from 'passport-jwt'
-import { logger } from '../utils/logger.js'
+import logger from '../utils/logger.js'
 
 const LocalStrategy = local.Strategy
 const JWTStrategy = jwt.Strategy

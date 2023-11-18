@@ -14,6 +14,7 @@ import passport from 'passport'
 import cookieParser from 'cookie-parser'
 import router from './routes/index.routes.js'
 import handlerErrors from './middlewares/errors/handlerErrors.js'
+import { requestLogger } from './middlewares/loggers/requestLogger.js'
 
 const PORT = 4000
 const app = express()
@@ -146,7 +147,7 @@ app.get('/static/home', async (req, res) => {
 
 //Routes
 
-
+app.use(requestLogger)
 app.use(express.urlencoded({ extended: true })) //URL extensas
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')

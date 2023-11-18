@@ -2,10 +2,12 @@ import { Router } from "express";
 import passport from "passport";
 import { postUser } from "../controllers/user.controller.js";
 import { generateUserErrorInfo } from "../service/errors/info.js";
+import CustomError from "../service/errors/customError.js";
+import EErrors from "../service/errors/enums.js";
 
 const userRouter = Router()
 
-userRouter.post('/register', (req, res, next) => {
+userRouter.post('/register', passport.authenticate('register'), postUser, (req, res, next) => {
     const { nombre, apellido, email, edad, contraseña } = req.body
     try {
         if (!nombre || !apellido || !email || !edad || !contraseña || !category) {
@@ -20,6 +22,6 @@ userRouter.post('/register', (req, res, next) => {
         next(error)
     }
 },
-    passport.authenticate('register'), postUser )
+)
 
 export default userRouter
