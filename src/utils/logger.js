@@ -6,16 +6,12 @@ const customOptionsLevels = {
         error: 1,
         warn: 2,
         info: 3,
-        http: 4,
-        debug: 5,
     },
     colors: {
         fatal: 'red',
         error: 'magenta',
         warn: 'yellow',
         info: 'blue',
-        http: 'green',
-        debug: 'white',
     }
 };
 

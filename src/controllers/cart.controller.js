@@ -151,6 +151,9 @@ export const ticketCart = async (req, res) => {
 					if (prod.stock >= cartProd.quantity) {
 						prod.stock = cartProd.quantity - prod.quantity
 						amount += prod.price * cartProd.quantity;
+						if (userModel.rol === 'premium') {
+							amount = amount * 0.9;
+						}
 						await prod.save();
 						res.status(200).send({ resultado: 'OK', message: cart })
 					} else {

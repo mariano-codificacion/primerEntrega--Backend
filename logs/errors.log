@@ -1,3 +1,9 @@
 {"level":"fatal","message":"Esto es un logger de fatal"}
 {"level":"error","message":"Esto es un logger de error"}
 {"level":"warn","message":"Esto es un logger de warn"}
+{"level":"fatal","message":"Esto es un logger de fatal"}
+{"level":"error","message":"Esto es un logger de error"}
+{"level":"warn","message":"Esto es un logger de warn"}
+{"level":"fatal","message":"Esto es un logger de fatal"}
+{"level":"error","message":"Esto es un logger de error"}
+{"level":"warn","message":"Esto es un logger de warn"}
