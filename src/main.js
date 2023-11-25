@@ -15,6 +15,8 @@ import cookieParser from 'cookie-parser'
 import router from './routes/index.routes.js'
 import handlerErrors from './middlewares/errors/handlerErrors.js'
 import { requestLogger } from './middlewares/loggers/requestLogger.js'
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express'
 
 const PORT = 4000
 const app = express()
@@ -29,6 +31,21 @@ mongoose.connect(process.env.MONGO_URL)
 const server = app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)
 })
+
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.1.0',
+        info: {
+            title: 'Documentacion del curso de backend',
+            description: 'API Coderhouse Backend'
+        }
+        },
+        apis: [`${__dirname}/docs/**/*.yaml`]
+    }
+
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 const io = new Server(server)
 

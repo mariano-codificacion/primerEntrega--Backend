@@ -1,18 +1,21 @@
 import productModel from "../models/products.models.js";
 
 export const getProducts = async (req, res) => {
-    const { limit, page, filter, sort } = req.query
+    const { limit, page, sort, category, status } = req.query;
 
-    const fil = filter ? filter : {}
-    const pag = page ? page : 1
-    const lim = limit ? limit : 10
-    const ord = sort == 'asc' ? 1 : -1
+    const parsedLimit = parseInt(limit) || 10
+    const parsedPage = parseInt(page) || 1
+    const getSorted = sort === 'asc' || sort === 'desc' ? sort : null
+
+    const query = {}
+    if (category) query.category = category
+    if (status) query.status = status
 
     try {
-        const products = await productModel.paginate({ category: fil }, { limit: lim, page: pag, sort: { price: ord } })
-
-        if (products) {
-            return res.status(200).send(products)
+        const prod = await productModel.paginate(query, { limit: parsedLimit, page: parsedPage, sort: { price: getSorted } });
+  
+        if (prod) {
+            return res.status(200).send(prod)
         }
 
         res.status(404).send({ error: "Productos no encontrados" })
