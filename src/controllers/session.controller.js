@@ -1,4 +1,5 @@
 import { generateToken } from "../utils/jwt.js"
+import logger from "../utils/logger.js"
 
 export const postSession = async (req, res) => {
     try {
@@ -20,6 +21,7 @@ export const postSession = async (req, res) => {
         res.redirect('/static/home?info=' + req.user.rol)
         //res.status(200).send({ payload: req.user })
     } catch (error) {
+        logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
         res.status(500).send({ mensaje: `Error al iniciar sesion ${error}` })
     }
 }

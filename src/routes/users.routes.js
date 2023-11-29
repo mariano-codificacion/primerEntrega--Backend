@@ -52,7 +52,7 @@ userRouter.post('/reset-password/:token', async (req, res) => {
             console.log(newPassword)
             console.log(oldPassword)
 
-            const user = await UserModel.findOne({ email });
+            const user = await userModel.findOne({ email });
             if (!user) {
                 logger.error(`Usuario no encontrado: ${email}`);
                 return res.status(400).send({ error: `Usuario no encontrado: ${email}` });

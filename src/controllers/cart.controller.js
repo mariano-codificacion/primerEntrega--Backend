@@ -1,6 +1,7 @@
 import cartModel from "../models/carts.models.js";
 import productModel from "../models/products.models.js";
 import userModel from "../models/users.models.js";
+import logger from "../utils/logger.js";
 
 export const getCarts = async (req, res) => {
 	const { limit } = req.query;
@@ -8,6 +9,7 @@ export const getCarts = async (req, res) => {
 		const carts = await cartModel.find().limit(limit);
 		res.status(200).send({ resultado: 'OK', message: carts });
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: `Error al consultar carritos: ${error}` });
 	}
 }
@@ -22,6 +24,7 @@ export const getCart = async (req, res) => {
 			res.status(404).send({ resultado: 'Not Found', message: cart });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: `Error al consultar carrito: ${error}` });
 	}
 }
@@ -34,6 +37,7 @@ export const postCart = async (req, res) => {
 		})
 		res.status(200).send({ resultado: 'OK', message: crearCarrito })
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: `Error al crear carrito:  ${error}` })
 	}
 }
@@ -49,6 +53,7 @@ export const postProdCart = async (req, res) => {
 			res.status(200).send({ respuesta: 'OK', mensaje: respuesta })
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: error })
 	}
 }
@@ -72,6 +77,7 @@ export const putProdCart = async (req, res) => {
 			res.status(404).send({ resultado: 'Cart Not Found', message: error });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: error })
 	}
 }
@@ -97,6 +103,7 @@ export const putArrayInCart = async (req, res) => {
 			res.status(404).send({ resultado: 'Cart Not Found', message: error });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: `Error al agregar productos: ${error}` });
 	}
 }
@@ -118,6 +125,7 @@ export const deleteProdCart = async (req, res) => {
 			res.status(404).send({ resultado: 'Cart Not Found', message: error });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: error })
 	}
 }
@@ -132,6 +140,7 @@ export const deleteCart = async (req, res) => {
 			res.status(404).send({ resultado: 'Not Found', message: cart });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: `Error al vaciar el carrito: ${error}` });
 	}
 }
@@ -151,11 +160,9 @@ export const ticketCart = async (req, res) => {
 					if (prod.stock >= cartProd.quantity) {
 						prod.stock = cartProd.quantity - prod.quantity
 						amount += prod.price * cartProd.quantity;
-						if (userModel.rol === 'premium') {
-							amount = amount * 0.9;
-						}
+						
 						await prod.save();
-						res.status(200).send({ resultado: 'OK', message: cart })
+						//res.status(200).send({ resultado: 'OK', message: cart })
 					} else {
 						res.status(404).send({ stock: 'Insuficiente', message: cart });
 					}
@@ -163,6 +170,9 @@ export const ticketCart = async (req, res) => {
 					res.status(404).send({ resultado: 'Not Found', message: cart });
 				}
 			})
+			if (user[0].rol === 'premium') {
+				amount = amount * 0.9;
+			}
 			await cartModel.findByIdAndUpdate(cid, { products: [] });
 			res.redirect(
 				`http://localhost:4000/api/tickets/create?amount=${amount}&email=${email}`
@@ -171,6 +181,7 @@ export const ticketCart = async (req, res) => {
 		res.status(400).send({ error: `Error al buscar el carrito: ${error}` });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
 		res.status(400).send({ error: `Error al finalizar la compra: ${error}` });
 	}
 }
