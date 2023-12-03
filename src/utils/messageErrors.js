@@ -29,12 +29,16 @@ export const authorization = (rol) => {
         if (!req.user) {
             return res.status(401).send({ error: 'User no autorizado' })
         }
+        const userRol = req.user.user.rol
 
-        if (req.user.user.rol != rol) { //Si mi usuario tiene un rol distinto al ingresado como parametro
-            return res.status(403).send({ error: 'User no tiene los privilegios necesarios' })
+        if (rol.includes(userRol)) {
+            next()
+        } else {
+            //Si mi usuario tiene un rol distinto al ingresado como parametro
+            res
+                .status(403)
+                .send({ error: 'User no tiene los privilegios necesarios' })
         }
-
-        next()
     }
 
 }

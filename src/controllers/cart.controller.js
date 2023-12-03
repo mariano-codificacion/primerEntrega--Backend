@@ -70,11 +70,11 @@ export const putProdCart = async (req, res) => {
 				await cart.save();
 				res.status(200).send({ respuesta: 'OK', mensaje: `Cantidad Actualizada` })
 			} else {
-				res.status(404).send({ resultado: 'Product Not Found', message: error });
+				res.status(404).send({ resultado: 'Product Not Found'});
 				return
 			}
 		} else {
-			res.status(404).send({ resultado: 'Cart Not Found', message: error });
+			res.status(404).send({ resultado: 'Cart Not Found'});
 		}
 	} catch (error) {
 		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
@@ -158,7 +158,7 @@ export const ticketCart = async (req, res) => {
 				const prod = products.find(arrayProd => arrayProd._id == cartProd.id_prod.toString());
 				if (prod) {
 					if (prod.stock >= cartProd.quantity) {
-						prod.stock = cartProd.quantity - prod.quantity
+						prod.stock -= cartProd.quantity
 						amount += prod.price * cartProd.quantity;
 						
 						await prod.save();
