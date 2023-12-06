@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getCart, getCarts, postCart, postProdCart,putProdCart, putArrayInCart, deleteProdCart, deleteCart, ticketCart } from '../controllers/cart.controller.js';
+import { getCart, getCarts, postCart, postProdCart, putProdCart, putArrayInCart, deleteProdCart, deleteCart, ticketCart } from '../controllers/cart.controller.js';
 import { passportError, authorization } from '../utils/messageErrors.js';
 
 const cartsRouter = Router();

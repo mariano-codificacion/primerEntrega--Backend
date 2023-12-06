@@ -1,9 +1,9 @@
 paths:
   /api/product/:
     get:
-      summary: Obtener a todos los productos
+      summary: Obtener todos los productos
       tags: 
-        - product
+        - Products
       responses:
         '200':
           description: Productos obtenidos satisfactoriamente
@@ -15,18 +15,44 @@ paths:
                   $ref: '#/components/schemas/product'
         '500':
           description: Error interno del servidor al obtener los productos
+    post:
+      summary: Crear nuevo producto
+      tags:
+        - Products
+      parameters:
+          - name: Product
+            in: body
+            description: El producto a crear
+            required: true
+            schema:
+                type: Object
+                items:
+                  $ref: '#/components/schemas/ProductToCreateOrModify'
+      responses:
+        '201':
+          description: Producto creado satisfactoriamente
+          content:
+            application/json:
+              schema:
+                type: Object
+                items:
+                  $ref: '#/components/schemas/product'
+        '401':
+          description: Llave duplicada. El codigo del producto ya existe
+        '500':
+          description: Error interno del servidor al crear producto
   /api/product/{id}:
     get:
       summary: Obtener un solo producto dado su id
       tags: 
-        - product
+        - Products
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema: 
-            $type: String
-          description: Id del producto a buscar
+          - name: id
+            in: path
+            description: Id del producto a buscar
+            required: true
+            schema: 
+                type: String
       responses:
         '200':
           description: Producto obtenido satisfactoriamente
@@ -37,7 +63,59 @@ paths:
                   $ref: '#/components/schemas/product'
         '500':
           description: Error interno del servidor al obtener los productos
-
+    put:
+      summary: Modificar un producto
+      tags:
+        - Products
+      parameters:
+          - name: id
+            in: path
+            description: Id del producto a buscar
+            required: true
+            schema:
+                type: String
+          - name: Product
+            in: body
+            description: El producto a modificar
+            required: true
+            schema:
+                type: Object
+                $ref: '#/components/schemas/ProductToCreateOrModify'
+      responses:
+        '200':
+          description: Producto modificado satisfactoriamente
+          content:
+            application/json:
+              schema:
+               type: Object
+               $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor al modificar producto      
+    delete:
+      summary: Eliminar un producto
+      tags:
+        - Products
+      parameters:
+          - name: id
+            in: path
+            description: Id del producto a buscar
+            required: true
+            schema:
+            type: String
+      responses:
+        '200':
+          description: Producto eliminado satisfactoriamente
+          content:
+            application/json:
+              schema:
+               type: Object
+               $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor al consultar producto      
 components:
   schemas:
     product:
@@ -80,5 +158,40 @@ components:
         status: true
         code: lac100
         thumbnails: Array vacio
-        
+    productToCreateOrModify:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Nombre del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        category:
+          type: String
+          description: Categoria a la que pertenece el producto
+        price:
+          type: Number
+          description: Precio del producto
+        stock:
+          type: Number
+          description: Cantidad de productos disponibles
+        code:
+          type: String
+          description: Codigo unico del producto
+        status:
+          type: Boolean
+          description: Existe (true), no existe (false). -Opcional-
+        thumbnail:
+          type: String
+          description: Imagen miniatura del producto. -Opcional-
+      example:
+        title: Leche
+        description: semidescremada
+        category: lacteos
+        price: 3000
+        stock: 100
+        code: Lac130
+        status: true
+        thumbnail: Array vacio  
         
