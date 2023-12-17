@@ -82,21 +82,25 @@ userRouter.post('/reset-password/:token', async (req, res) => {
 })
 
 
-userRouter.post('/register', passport.authenticate('register'), postUser, (req, res, next) => {
-    const { nombre, apellido, email, edad, contraseña } = req.body
+userRouter.post('/register', (req, res, next) => {
+    const { first_name, last_name, email, age, password } = req.body
     try {
-        if (!nombre || !apellido || !email || !edad || !contraseña || !category) {
+        if (!first_name || !last_name || !email || !age || !password) {
             CustomError.createError({
                 name: "Product create error",
-                cause: generateUserErrorInfo ({nombre, apellido, email, edad, contraseña}),
+                cause: generateUserErrorInfo ({
+                    first_name, last_name, email, age, password}),
                 message: "One or more properties were incomplete or not valid",
                 code: EErrors.INVALID_USER_ERROR
             })
         }
+        next(S)
     } catch (error) {
         next(error)
     }
 },
+passport.authenticate('register'), postUser
 )
 
 export default userRouter
+
