@@ -1,4 +1,5 @@
 import logger from "../utils/logger.js"
+import userModel from "../models/users.models.js"
 
 export const postUser = async (req, res) => {
     try {
@@ -10,5 +11,24 @@ export const postUser = async (req, res) => {
     } catch (error) {
         logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
         res.status(500).send({ mensaje: `Error al crear usuario ${error}` })
+    }
+}
+
+
+export const deleteUser = async (req, res) => {
+    const { id } = req.params
+
+    try {
+        const user = await userModel.findByIdAndDelete(id)
+
+        if (user) {
+            return res.status(200).send(user)
+        }
+
+        res.status(404).send({ error: "Producto no encontrado" })
+
+    } catch (error) {
+        logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
+        res.status(500).send({ error: `Error en eliminar usuario ${error}` })
     }
 }

@@ -7,3 +7,4 @@
 {"level":"fatal","message":"Esto es un logger de fatal"}
 {"level":"error","message":"Esto es un logger de error"}
 {"level":"warn","message":"Esto es un logger de warn"}
+{"level":"error","message":"[ERROR][18/12/2023 - 20:51:36] Ha ocurrido un error: Operation `users.findOne()` buffering timed out after 10000ms"}

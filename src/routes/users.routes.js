@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { postUser } from "../controllers/user.controller.js";
+import { postUser, deleteUser } from "../controllers/user.controller.js";
 import { generateUserErrorInfo } from "../service/errors/info.js";
 import CustomError from "../service/errors/customError.js";
 import EErrors from "../service/errors/enums.js";
@@ -9,6 +9,7 @@ import crypto from 'crypto'
 import userModel from "../models/users.models.js";
 import { createHash, validatePassword } from '../utils/bcrypt.js';
 import logger from "../utils/logger.js";
+import { passportError,  authorization } from "../utils/messageErrors.js";
 
 const userRouter = Router()
 
@@ -94,13 +95,14 @@ userRouter.post('/register', (req, res, next) => {
                 code: EErrors.INVALID_USER_ERROR
             })
         }
-        next(S)
+        next()
     } catch (error) {
         next(error)
     }
 },
 passport.authenticate('register'), postUser
 )
+userRouter.delete('/:uid', passportError('jwt'), authorization('Admin'), deleteUser)
 
 export default userRouter
 
