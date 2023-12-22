@@ -8,3 +8,9 @@
 {"level":"error","message":"Esto es un logger de error"}
 {"level":"warn","message":"Esto es un logger de warn"}
 {"level":"error","message":"[ERROR][18/12/2023 - 20:51:36] Ha ocurrido un error: Operation `users.findOne()` buffering timed out after 10000ms"}
+{"level":"error","message":"[ERROR] - Date: 21/12/2023, 21:23:55 - Cast to ObjectId failed for value \"+uid\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 21/12/2023, 21:28:43 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 21/12/2023, 21:31:51 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 21/12/2023, 21:57:29 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 21/12/2023, 22:02:20 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 21/12/2023, 22:12:44 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}

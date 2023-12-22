@@ -17,13 +17,12 @@ describe("Test de Usuario y carrito", async () => {
   let cartId = "";
   let userId = "";
 
-  
   const newUser = {
     first_name: "Panchito",
     last_name: "Perez",
     email: "perezito@perez.com",
     password: "coderhouse",
-    age: 30,
+    age: 30
   };
   
 //Un error de Fran, es que cerraba el parentesis antes de la async function() Lo corri al final de la funcion, asi como lo hacemos en routes.
@@ -121,7 +120,7 @@ describe("Test de Usuario y carrito", async () => {
   
 
   
-    it('Ruta: api/users/uid metodo DELETE'), async function () 
+    it('Ruta: api/users/:uid metodo DELETE', async function () 
     {
         const uid = userId
 
@@ -134,6 +133,6 @@ describe("Test de Usuario y carrito", async () => {
         console.log("Usuario eliminado en api/users")
         console.log(`Status: ${__body}`)
 
-    }
+    })
 
 });

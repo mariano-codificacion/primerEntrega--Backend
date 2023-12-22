@@ -100,9 +100,9 @@ userRouter.post('/register', (req, res, next) => {
         next(error)
     }
 },
-passport.authenticate('register'), postUser
-)
-userRouter.delete('/:uid', passportError('jwt'), authorization('Admin'), deleteUser)
+passport.authenticate('register'), postUser)
+
+userRouter.delete('/:uid', deleteUser)
 
 export default userRouter
 

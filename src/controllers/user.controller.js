@@ -16,10 +16,10 @@ export const postUser = async (req, res) => {
 
 
 export const deleteUser = async (req, res) => {
-    const { id } = req.params
+    const { uid } = req.params
 
     try {
-        const user = await userModel.findByIdAndDelete(id)
+        const user = await userModel.findByIdAndDelete(uid)
 
         if (user) {
             return res.status(200).send(user)
