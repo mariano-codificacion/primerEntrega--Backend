@@ -1,5 +1,34 @@
 import logger from "../utils/logger.js"
 import userModel from "../models/users.models.js"
+import { sendRecoveryEmail, deletionEmail } from "../config/nodemailer.js";
+
+export const getUsers = async (req, res) => {
+    try {
+        const users = await userModel.find();
+      
+        const filterUser = users.map((user) => {
+            const { email, first_name, last_name, rol } = user;
+            return { first_name, last_name, email, rol };
+        });
+        return res.status(200).send(filterUser);
+    } catch (error) {
+        logger.error(`Error al obtener usuarios: ${error}`);
+        return res.status(500).send({ error: `Error al obtener usuarios: ${error}` });
+    }
+}
+/*
+export const getUsersLimit = async (req, res) => {
+	const { limit } = req.query;
+	try {
+		const users = await userModel.find().limit(limit);
+		res.status(200).send({ resultado: 'OK', message: users });
+	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
+		res.status(400).send({ error: `Error al consultar carritos: ${error}` });
+	}
+}
+*/
+
 
 export const postUser = async (req, res) => {
     try {
@@ -32,3 +61,23 @@ export const deleteUser = async (req, res) => {
         res.status(500).send({ error: `Error en eliminar usuario ${error}` })
     }
 }
+
+export const deleteInactiveUsers = async (req, res) => {
+    try {
+        const users = await userModel.find({ last_connection: { $lt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)} });
+
+        if (users.length === 0) {
+            logger.warn(`No se encontraron usuarios inactivos`);
+            return res.status(400).send({ error: `No se encontraron usuarios inactivos` });
+        }else{
+        users.forEach(async user => {
+            deletionEmail(user.email);
+            await userModel.deleteOne({ _id: user._id });
+        });
+        res.json({ message: 'Usuarios inactivos eliminados y notificados.' });
+        }
+    } catch (error) {
+            logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
+            res.status(500).send({ error: `Error al eliminar usuarios inactivos ${error}` })
+        }
+};

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { postUser, deleteUser } from "../controllers/user.controller.js";
+import { postUser, deleteUser, getUsers, deleteInactiveUsers } from "../controllers/user.controller.js";
 import { generateUserErrorInfo } from "../service/errors/info.js";
 import CustomError from "../service/errors/customError.js";
 import EErrors from "../service/errors/enums.js";
@@ -103,6 +103,10 @@ userRouter.post('/register', (req, res, next) => {
 passport.authenticate('register'), postUser)
 
 userRouter.delete('/:uid', deleteUser)
+
+userRouter.delete('/delete', deleteInactiveUsers)
+
+userRouter.get('/', getUsers)
 
 export default userRouter
 
