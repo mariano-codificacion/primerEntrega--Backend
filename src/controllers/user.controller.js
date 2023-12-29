@@ -5,7 +5,7 @@ import { sendRecoveryEmail, deletionEmail } from "../config/nodemailer.js";
 export const getUsers = async (req, res) => {
     try {
         const users = await userModel.find();
-      
+
         const filterUser = users.map((user) => {
             const { email, first_name, last_name, rol } = user;
             return { first_name, last_name, email, rol };
@@ -16,18 +16,6 @@ export const getUsers = async (req, res) => {
         return res.status(500).send({ error: `Error al obtener usuarios: ${error}` });
     }
 }
-/*
-export const getUsersLimit = async (req, res) => {
-	const { limit } = req.query;
-	try {
-		const users = await userModel.find().limit(limit);
-		res.status(200).send({ resultado: 'OK', message: users });
-	} catch (error) {
-		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
-		res.status(400).send({ error: `Error al consultar carritos: ${error}` });
-	}
-}
-*/
 
 
 export const postUser = async (req, res) => {
@@ -35,7 +23,7 @@ export const postUser = async (req, res) => {
         if (!req.user) {
             return res.status(400).send({ mensaje: 'Usuario ya existente' })
         }
-        return res.redirect ('/static/login') 
+        return res.redirect('/static/login')
         //res.status(200).send({ mensaje: 'Usuario creado' })
     } catch (error) {
         logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
@@ -64,20 +52,23 @@ export const deleteUser = async (req, res) => {
 
 export const deleteInactiveUsers = async (req, res) => {
     try {
-        const users = await userModel.find({ last_connection: { $lt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000)} });
+
+        const timeInactive = new Date(Date.now() - 48 * 60 * 60 * 1000)
+
+        const users = await userModel.find({ last_connection: { $lt: timeInactive } })
 
         if (users.length === 0) {
             logger.warn(`No se encontraron usuarios inactivos`);
-            return res.status(400).send({ error: `No se encontraron usuarios inactivos` });
-        }else{
-        users.forEach(async user => {
-            deletionEmail(user.email);
-            await userModel.deleteOne({ _id: user._id });
-        });
-        res.json({ message: 'Usuarios inactivos eliminados y notificados.' });
+            return res.status(404).send({ error: `No se encontraron usuarios inactivos` });
+        } else {
+            users.forEach(async user => {
+                deletionEmail(user.email);
+                await userModel.deleteOne({ _id: user._id });
+            });
+            res.json({ message: 'Usuarios inactivos eliminados y notificados.' });
         }
     } catch (error) {
-            logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
-            res.status(500).send({ error: `Error al eliminar usuarios inactivos ${error}` })
-        }
+        logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
+        res.status(500).send({ error: `Error al eliminar usuarios inactivos ${error}` })
+    }
 };

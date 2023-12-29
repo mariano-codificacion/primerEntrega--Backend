@@ -102,11 +102,13 @@ userRouter.post('/register', (req, res, next) => {
 },
 passport.authenticate('register'), postUser)
 
-userRouter.delete('/:uid', deleteUser)
-
-userRouter.delete('/delete', deleteInactiveUsers)
-
 userRouter.get('/', getUsers)
+
+//userRouter.delete('/:uid', deleteUser)
+
+userRouter.delete('/', deleteInactiveUsers)
+
+
 
 export default userRouter
 

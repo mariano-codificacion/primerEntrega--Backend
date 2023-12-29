@@ -14,3 +14,10 @@
 {"level":"error","message":"[ERROR] - Date: 21/12/2023, 21:57:29 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}
 {"level":"error","message":"[ERROR] - Date: 21/12/2023, 22:02:20 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}
 {"level":"error","message":"[ERROR] - Date: 21/12/2023, 22:12:44 - Cast to ObjectId failed for value \"${uid}\" (type string) at path \"_id\" for model \"users\""}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"error","message":"[ERROR] - Date: 29/12/2023, 15:00:28 - Operation `users.find()` buffering timed out after 10000ms"}
+{"level":"error","message":"[ERROR] - Date: 29/12/2023, 15:03:22 - Operation `users.find()` buffering timed out after 10000ms"}
+{"level":"error","message":"[ERROR] - Date: 29/12/2023, 15:03:54 - Operation `users.find()` buffering timed out after 10000ms"}
+{"level":"error","message":"[ERROR] - Date: 29/12/2023, 15:04:05 - Operation `users.find()` buffering timed out after 10000ms"}
