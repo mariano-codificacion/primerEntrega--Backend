@@ -50,14 +50,52 @@ export const deleteUser = async (req, res) => {
     }
 }
 
+export const documentsUsers = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const newFiles = req.files['documents'];
+
+        if (newFiles.length === 0) {
+            logger.error(`No new documents`);
+            return res.status(400).send({ error: 'No new documents' });
+        }
+
+        const user = await userModel.findById(id);
+        if (!user) {
+            logger.error(`Usuario no encontrado: ${id}`);
+            return res.status(404).send({ error: `Usuario no encontrado: ${id}` });
+        }
+
+        newFiles.forEach((file) => {
+            user.documents.push(file.filename);
+        });
+
+        await user.save();
+
+        logger.info(`Documentos agregado en el usuario ${id}`);
+        return res.status(200).send({ resultado: 'OK', message: 'Documentos agregado correctamente' });
+    } catch (error) {
+        logger.error(`Error al actualizar documentos: ${error}`);
+        return res.status(500).send({ error: `Error al actualizar documentos: ${error}` });
+    }
+};
+
+
 export const deleteInactiveUsers = async (req, res) => {
     try {
+        
+        const timeInactive = new Date(Date.now() - 10000)
 
-        const timeInactive = new Date(Date.now() - 48 * 60 * 60 * 1000)
+        console.log(timeInactive)
+        //const parsetimeInactive = Date.parse(timeInactive)
+        //console.log(parsetimeInactive)
 
-        const users = await userModel.find({ last_connection: { $lt: timeInactive } })
+
+        const users = await userModel.find({ last_connection: { $lt: new Date(timeInactive) } });
 
         if (users.length === 0) {
+            console.log(users)
             logger.warn(`No se encontraron usuarios inactivos`);
             return res.status(404).send({ error: `No se encontraron usuarios inactivos` });
         } else {

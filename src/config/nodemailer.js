@@ -6,8 +6,8 @@ const transporter = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'franciscopugh3@gmail.com',
-        pass: ' mmbs wkol upwo qyfz',
+        user: 'mariano140278@gmail.com',
+        pass: process.env.EMAIL_PASS, 
         authMethod: 'LOGIN'
     }
 })
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendRecoveryEmail = (email, recoveryLink) => {
     const mailOptions = {
-        from: 'franciscopugh3@gmail.com',
+        from: 'mariano140278@gmail.com',
         to: email,
         subject: 'Link de recuperacion de su contraseña',
         text: `Por favor haz click en el siguiente enlace ${recoveryLink}`
@@ -32,7 +32,7 @@ export const sendRecoveryEmail = (email, recoveryLink) => {
 
 export const deletionEmail = (email) => {
     const mailOptions = {
-        from: process.env.EMAIL,
+        from: 'mariano140278@gmail.com',
         to: email,
         subject: 'Cuenta eliminada',
         html: `<p>Tu cuenta ha sido eliminada debido a inactividad.</p><br/>

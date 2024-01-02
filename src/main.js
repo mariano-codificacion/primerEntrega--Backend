@@ -137,19 +137,6 @@ app.get('/static/login', async (req, res) => {
         })
 })
 
-
-
-
-app.get('/logout', (req, res) => {
-    req.session.destroy((error) => {
-        if (error)
-            console.log(error)
-        else
-            res.redirect('/static/login')
-    })
-})
-
-
 app.get('/static/home', async (req, res) => {
     const products = await productModel.find().lean();
     const info = req.query.info;

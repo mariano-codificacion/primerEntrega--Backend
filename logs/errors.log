@@ -21,3 +21,32 @@
 {"level":"error","message":"[ERROR] - Date: 29/12/2023, 15:03:22 - Operation `users.find()` buffering timed out after 10000ms"}
 {"level":"error","message":"[ERROR] - Date: 29/12/2023, 15:03:54 - Operation `users.find()` buffering timed out after 10000ms"}
 {"level":"error","message":"[ERROR] - Date: 29/12/2023, 15:04:05 - Operation `users.find()` buffering timed out after 10000ms"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:05:58 - Cast to ObjectId failed for value \"delete\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:07:10 - Cast to ObjectId failed for value \"delete\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:10:48 - Cast to ObjectId failed for value \"delete\" (type string) at path \"_id\" for model \"users\""}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:18:12 - Date.parse is not a constructor"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:25:28 - parsetimeInactive is not defined"}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:25:50 - Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:35:40 - Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:36:13 - Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:38:10 - Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:45:31 - Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:46:13 - Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\""}
+{"level":"error","message":"[ERROR] - Date: 1/1/2024, 23:46:32 - Cast to date failed for value \"Invalid Date\" (type Date) at path \"last_connection\" for model \"users\""}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"error","message":"[ERROR] - Date: 2/1/2024, 00:00:51 - Operation `users.find()` buffering timed out after 10000ms"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}

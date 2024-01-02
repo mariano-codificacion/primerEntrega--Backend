@@ -104,7 +104,7 @@ passport.authenticate('register'), postUser)
 
 userRouter.get('/', getUsers)
 
-//userRouter.delete('/:uid', deleteUser)
+userRouter.delete('/:uid', deleteUser)
 
 userRouter.delete('/', deleteInactiveUsers)
 

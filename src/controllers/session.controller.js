@@ -1,5 +1,6 @@
 import { generateToken } from "../utils/jwt.js"
 import logger from "../utils/logger.js"
+import userModel from "../models/users.models.js"
 
 export const postSession = async (req, res) => {
     try {
@@ -18,6 +19,7 @@ export const postSession = async (req, res) => {
         res.cookie('jwtCookie', token, {
             maxAge: 43200000
         })
+        await userModel.findByIdAndUpdate(req.user._id, { last_connection: Date.now() })
         res.redirect('/static/home?info=' + req.user.rol)
         //res.status(200).send({ payload: req.user })
     } catch (error) {
@@ -57,5 +59,6 @@ export const getLogout = async (req, res) => {
         req.session.destroy()
     } 
     res.clearCookie('jwtCookie')
-    res.status(200).send({ resultado: 'Login eliminado' })
+    res.redirect('/static/login')
+    //res.status(200).send({ resultado: 'Login eliminado' })
 }
