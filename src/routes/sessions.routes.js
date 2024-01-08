@@ -1,10 +1,12 @@
 import { Router } from "express";
 import passport from "passport";
 import { passportError, authorization } from "../utils/messageErrors.js";
-import { getCurrent, getGitHub, getGithubSession, getJWT, getLogout, postSession } from "../controllers/session.controller.js";
+import { getCurrent, getGitHub, getGithubSession, getJWT, getLogout, postSession, registeruserSession } from "../controllers/session.controller.js";
 
 
 const sessionRouter = Router()
+
+sessionRouter.post('/register', passport.authenticate('register'), registeruserSession)
 
 sessionRouter.post('/login', passport.authenticate('login'), postSession)
   

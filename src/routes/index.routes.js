@@ -9,10 +9,10 @@ import loggerRouter from "./loggersTest.js";
 
 const router = Router()
 
-router.use('/api/product', productRouter)
+router.use('/api/products', productRouter)
 router.use('/api/users', userRouter)
 router.use('/api/carts', cartsRouter)
-router.use('/api/sessions', sessionRouter)
+router.use('/api/session', sessionRouter)
 router.use('/api/tickets', routerTicket)
 router.use('/api/mocking', mockingRouter)
 router.use('/api/logger', loggerRouter)

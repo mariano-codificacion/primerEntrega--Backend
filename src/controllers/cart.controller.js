@@ -29,35 +29,45 @@ export const getCart = async (req, res) => {
 	}
 }
 
-export const postCart = async (req, res) => {
-	const { id_prod, quantity } = req.body
-	try {
-		const crearCarrito = await cartModel.create({
-			id_prod, quantity
-		})
-		res.status(200).send({ resultado: 'OK', message: crearCarrito })
-	} catch (error) {
-		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
-		res.status(400).send({ error: `Error al crear carrito:  ${error}` })
-	}
-}
-
 export const postProdCart = async (req, res) => {
-	const { cid, pid } = req.params
-	const { quantity } = req.body
+// agregar producto al carrito
+const { cid, pid } = req.params;
+
 	try {
-		const cart = await cartModel.findById(cid)
+		const cart = await cartModel.findById(cid);
+		const product = await productModel.findById(pid);
+
+		if (!product) {
+			res.status(404).send({ resultado: 'Product Not Found', message: product });
+			return false;
+		}
+
+		if (product.stock === 0) {
+			console.log(product.stock);
+			res.status(400).send({ error: `No hay stock` });
+		}
+
 		if (cart) {
-			cart.products.push({ id_prod: pid, quantity: quantity })
-			const respuesta = await cartModel.findByIdAndUpdate(cid, cart) //Actualizo el carrito de mi BDD con el nuevo producto
-			res.status(200).send({ respuesta: 'OK', mensaje: respuesta })
+			const productExists = cart.products.find(prod => prod.id_prod == pid);
+
+			if (!productExists) {
+				cart.products.push({ id_prod: product._id, quantity: 1 });
+			} else if (productExists.quantity < product.stock) {
+				productExists.quantity++;
+			} else {
+				return res.status(400).send({ error: `No hay stock suficiente` });
+			}
+
+			await cart.save();
+			return res.status(200).send({ resultado: 'OK', message: cart });
+		} else {
+			res.status(404).send({ resultado: 'Cart Not Found', message: cart });
 		}
 	} catch (error) {
-		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
-		res.status(400).send({ error: error })
+		res.status(500).send({ error: `Error al crear producto: ${error}` });
 	}
-}
-
+};
+	
 export const putProdCart = async (req, res) => {
 	const { cid, pid } = req.params
 	const { quantity } = req.body
@@ -81,6 +91,36 @@ export const putProdCart = async (req, res) => {
 		res.status(400).send({ error: error })
 	}
 }
+
+export const putquantityprodCart = async (req, res) => {
+	// agregar cantidad de un producto
+	const { cid, pid } = req.params;
+	const { quantity } = req.body;
+	const product = await productModel.findById(pid);
+
+	try {
+		const cart = await cartModel.findById(cid);
+
+		if (cart) {
+			const productExists = cart.products.find(prod => prod.id_prod == pid);
+			if (productExists) {
+				if (product.stock < productExists.quantity + quantity) {
+					res.status(400).send({ error: `No hay stock suficiente` });
+				}
+				productExists.quantity += quantity;
+			} else {
+				res.status(404).send({ resultado: 'Product Not Found', message: cart });
+				return;
+			}
+			await cart.save();
+			res.status(200).send({ resultado: 'OK', message: cart });
+		} else {
+			res.status(404).send({ resultado: 'Cart Not Found', message: cart });
+		}
+	} catch (error) {
+		res.status(400).send({ error: `Error al agregar productos: ${error}` });
+	}
+};
 
 export const putArrayInCart = async (req, res) => {
 	const { cid } = req.params;
@@ -175,7 +215,8 @@ export const ticketCart = async (req, res) => {
 			}
 			await cartModel.findByIdAndUpdate(cid, { products: [] });
 			res.redirect(
-				`http://localhost:4000/api/tickets/create?amount=${amount}&email=${email}`
+				`/api/tickets/create?amount=${amount}&email=${email}`
+				//`http://localhost:4000/api/tickets/create?amount=${amount}&email=${email}`
 			);
 		}else{
 		res.status(400).send({ error: `Error al buscar el carrito: ${error}` });

@@ -1,13 +1,22 @@
 body {
     font-family: 'Times New Roman', Times, serif;
     margin: 0;
-    padding: 20px;
+    padding: 10px;
     background-color: darkslategrey;
 }
 
 h1 {
     text-align: center;
 }
+
+h2 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+}
+
 #productos{
     text-align: center;
 }

@@ -1,15 +1,20 @@
-<h4>Bienvenido: {{info}}</h4>
-
-<button id="botonLogout">Logout</button>
-<h1>Lista de Productos</h1>
+<h2>Lista de Productos</h2>
+<h3>Bienvenido: {{info}} <br /> <button id="botonLogout">Logout</button></h3>
 <hr>
 <div id="productos">
-{{#each products}}
-<div>
-    <p><h4>Nombre:{{this.title}}</h4> <h4>Descripcion: {{this.description}}</h4> <h4>Categoria:{{this.category}}</h4>
-         <h4>Price:{{this.price}}</h4> <h4>Stock:{{this.stock}}</h4> <h4>Code: {{this.code}}</h4> <h4>Status: {{this.status}}</h4>
-    <hr>
-    </p>
-</div>
-{{/each}}
+    {{#each products}}
+    <div>
+        <p>
+        <h4>Nombre:{{this.title}}</h4>
+        <h4>Descripcion: {{this.description}}</h4>
+        <h4>Categoria:{{this.category}}</h4>
+        <h4>Price:{{this.price}}</h4>
+        <h4>Stock:{{this.stock}}</h4>
+        <h4>Code: {{this.code}}</h4>
+        <h4>Status: {{this.status}}</h4>
+        <button id="agregarCarrito">Agregar al Carrito</button>
+        <hr>
+        </p>
+    </div>
+    {{/each}}
 </div>

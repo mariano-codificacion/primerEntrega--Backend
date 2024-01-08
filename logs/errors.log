@@ -50,3 +50,26 @@
 {"level":"warn","message":"No se encontraron usuarios inactivos"}
 {"level":"warn","message":"No se encontraron usuarios inactivos"}
 {"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"warn","message":"No se encontraron usuarios inactivos"}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 17:02:04 - ticket validation failed: amount: Cast to Number failed for value \"${amount}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 23:02:39 - ticket validation failed: amount: Cast to Number failed for value \"${amount}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 23:12:37 - ticket validation failed: amount: Cast to Number failed for value \"email=${email}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 23:14:13 - ticket validation failed: amount: Cast to Number failed for value \"email=${email}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 23:14:24 - ticket validation failed: amount: Cast to Number failed for value \"${amount}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 23:15:11 - ticket validation failed: amount: Cast to Number failed for value \"{amount}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 23:16:03 - ticket validation failed: amount: Cast to Number failed for value \"{amount}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 5/1/2024, 23:19:12 - ticket validation failed: amount: Cast to Number failed for value \"${amount}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 6/1/2024, 07:18:29 - ticket validation failed: amount: Cast to Number failed for value \"${amount}\" (type string) at path \"amount\""}
+{"level":"error","message":"[ERROR] - Date: 6/1/2024, 07:20:26 - Cannot read properties of undefined (reading 'email')"}
+{"level":"error","message":"[ERROR] - Date: 6/1/2024, 07:21:29 - Cast to ObjectId failed for value \"659851d868501b7cf93b8\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[ERROR] - Date: 6/1/2024, 07:22:20 - Cast to ObjectId failed for value \"659851d868501b7cf93b8\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[ERROR] - Date: 6/1/2024, 12:20:36 - Cast to ObjectId failed for value \":id\" (type string) at path \"_id\" for model \"products\""}
+{"level":"error","message":"[ERROR] - Date: 6/1/2024, 12:35:25 - Cast to ObjectId failed for value \"6599671004b8744969484c7f\\n\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 18:34:32 - Cannot read properties of undefined (reading 'quantity')"}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 18:36:46 - Cannot read properties of undefined (reading 'quantity')"}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 18:38:08 - carts validation failed: products.0.quantity: Path `quantity` is required."}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 18:39:21 - carts validation failed: products.0.quantity: Path `quantity` is required."}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 21:26:54 - carts validation failed: products.1.id_prod: Path `id_prod` is required."}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 21:38:17 - carts validation failed: products.1.id_prod: Path `id_prod` is required."}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 21:46:47 - carts validation failed: products.1.id_prod: Cast to ObjectId failed for value \"\" (type string) at path \"id_prod\" because of \"BSONError\", products.2.id_prod: Cast to ObjectId failed for value \"\" (type string) at path \"id_prod\" because of \"BSONError\""}
+{"level":"error","message":"[ERROR] - Date: 7/1/2024, 21:47:44 - carts validation failed: products.1.id_prod: Cast to ObjectId failed for value \"\" (type string) at path \"id_prod\" because of \"BSONError\", products.2.id_prod: Cast to ObjectId failed for value \"\" (type string) at path \"id_prod\" because of \"BSONError\""}

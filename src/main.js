@@ -100,7 +100,6 @@ initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
 
-
 //HBS
 app.get('/static/realtimeproducts', (req, res) => {
 
@@ -118,8 +117,6 @@ app.get('/static/chat', (req, res) => {
         rutaJS: "chat"
     })
 })
-
-
 
 //SESSIONS
 

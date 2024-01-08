@@ -21,11 +21,14 @@ productRouter.post('/', requestLogger ,(req, res, next) => {
                 code: EErrors.INVALID_PRODUCT_ERROR
             })
         }
+        next()
     } catch (error) {
         next(error)
     }
 },
     passportError('jwt'), authorization('Admin'), postProduct)
+//postProduct)
 productRouter.put('/:id', passportError('jwt'), authorization('Admin'), putProduct)
 productRouter.delete('/:id', passportError('jwt'), authorization('Admin'), deleteProduct)
 export default productRouter
+
