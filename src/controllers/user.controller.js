@@ -101,28 +101,6 @@ export const postUser = async (req, res) => {
     }
 }
 
-export const registerUser  = (req, res) => {
-    const { first_name, last_name, email, age, password } = req.body
-    try {
-        if (!req.user) {
-            return res.status(400).send({ mensaje: 'Usuario ya existente' })
-        }
-        if (!first_name || !last_name || !email || !age || !password) {
-            CustomError.createError({
-                name: "User create error",
-                cause: generateUserErrorInfo ({
-                    first_name, last_name, email, age, password}),
-                message: "One or more properties were incomplete or not valid",
-                code: EErrors.INVALID_USER_ERROR
-            })
-        }
-        return res.redirect('/static/login')
-    } catch (error) {
-        logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
-        res.status(500).send({ mensaje: `Error al crear usuario ${error}` })
-    }
-}
-
 export const deleteUser = async (req, res) => {
     const { uid } = req.params
 

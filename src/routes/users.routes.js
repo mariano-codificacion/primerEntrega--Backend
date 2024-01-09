@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import { postUser, deleteUser, getUsers, deleteInactiveUsers, recoverypasswordUser, resetpasswordUser, registerUser } from "../controllers/user.controller.js";
+import { postUser, deleteUser, getUsers, deleteInactiveUsers, recoverypasswordUser, resetpasswordUser} from "../controllers/user.controller.js";
 import { generateUserErrorInfo } from "../service/errors/info.js";
 import CustomError from "../service/errors/customError.js";
 import EErrors from "../service/errors/enums.js";

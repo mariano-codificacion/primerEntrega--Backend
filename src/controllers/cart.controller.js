@@ -1,6 +1,8 @@
 import cartModel from "../models/carts.models.js";
 import productModel from "../models/products.models.js";
 import userModel from "../models/users.models.js";
+import ticketModel from "../models/tickets.models.js"
+import { v4 as uuidv4 } from "uuid";
 import logger from "../utils/logger.js";
 
 export const getCarts = async (req, res) => {
@@ -30,8 +32,8 @@ export const getCart = async (req, res) => {
 }
 
 export const postProdCart = async (req, res) => {
-// agregar producto al carrito
-const { cid, pid } = req.params;
+	// agregar producto al carrito
+	const { cid, pid } = req.params;
 
 	try {
 		const cart = await cartModel.findById(cid);
@@ -64,10 +66,12 @@ const { cid, pid } = req.params;
 			res.status(404).send({ resultado: 'Cart Not Found', message: cart });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
+		res.status(400).send({ error: error })
 		res.status(500).send({ error: `Error al crear producto: ${error}` });
 	}
 };
-	
+
 export const putProdCart = async (req, res) => {
 	const { cid, pid } = req.params
 	const { quantity } = req.body
@@ -80,11 +84,11 @@ export const putProdCart = async (req, res) => {
 				await cart.save();
 				res.status(200).send({ respuesta: 'OK', mensaje: `Cantidad Actualizada` })
 			} else {
-				res.status(404).send({ resultado: 'Product Not Found'});
+				res.status(404).send({ resultado: 'Product Not Found' });
 				return
 			}
 		} else {
-			res.status(404).send({ resultado: 'Cart Not Found'});
+			res.status(404).send({ resultado: 'Cart Not Found' });
 		}
 	} catch (error) {
 		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
@@ -118,6 +122,8 @@ export const putquantityprodCart = async (req, res) => {
 			res.status(404).send({ resultado: 'Cart Not Found', message: cart });
 		}
 	} catch (error) {
+		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
+		res.status(400).send({ error: error })
 		res.status(400).send({ error: `Error al agregar productos: ${error}` });
 	}
 };
@@ -193,33 +199,38 @@ export const ticketCart = async (req, res) => {
 		if (cart) {
 			const user = await userModel.find({ cart: cart._id });
 			const email = user[0].email;
-			let amount = 0;
+			let amount = 0
+			const purchaseItems = [];
 			cart.products.forEach(async cartProd => {
-				const prod = products.find(arrayProd => arrayProd._id == cartProd.id_prod.toString());
-				if (prod) {
-					if (prod.stock >= cartProd.quantity) {
-						prod.stock -= cartProd.quantity
-						amount += prod.price * cartProd.quantity;
-						
-						await prod.save();
-						//res.status(200).send({ resultado: 'OK', message: cart })
+				const product = products.find(prod => prod._id == cartProd.id_prod.toString());
+				if (product) {
+					if (product.stock >= cartProd.quantity) {
+						product.stock -= cartProd.quantity;
+						amount += product.price * cartProd.quantity;
+						await product.save();
+						purchaseItems.push(product.title);
 					} else {
-						res.status(404).send({ stock: 'Insuficiente', message: cart });
+						return res.status(404).send({ stock: 'Insuficiente' });
 					}
 				} else {
-					res.status(404).send({ resultado: 'Not Found', message: cart });
+					return res.status(404).send({ resultado: 'Not Found' });
 				}
 			})
-			if (user[0].rol === 'premium') {
-				amount = amount * 0.9;
-			}
 			await cartModel.findByIdAndUpdate(cid, { products: [] });
-			res.redirect(
-				`/api/tickets/create?amount=${amount}&email=${email}`
-				//`http://localhost:4000/api/tickets/create?amount=${amount}&email=${email}`
-			);
-		}else{
-		res.status(400).send({ error: `Error al buscar el carrito: ${error}` });
+
+			const ticket = {
+				code: uuidv4(),
+				amount: amount,
+				purchaser: email,
+			};
+			const ticketGenerado = await ticketModel.create(ticket);
+			res.status(201).send({
+				resultado: 'Ticket generado',
+				mensaje: { ticketGenerado, purchaseItems },
+			});
+
+		} else {
+			return res.status(400).send({ error: `Error al buscar el carrito: ${error}` });
 		}
 	} catch (error) {
 		logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
