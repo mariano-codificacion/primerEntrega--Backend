@@ -1,5 +1,9 @@
 import productModel from "../models/products.models.js";
 import logger from "../utils/logger.js";
+import CustomError from '../service/errors/customError.js';
+import { generateProductErrorInfo } from '../service/errors/info.js';
+import EErrors from '../service/errors/enums.js';
+
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, category, status } = req.query;
@@ -102,5 +106,24 @@ export const deleteProduct = async (req, res) => {
     } catch (error) {
         logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
         res.status(500).send({ error: `Error en eliminar producto ${error}` })
+    }
+}
+
+export const errorpostProduct = async (req, res, next) => {
+    const { title, description, code, price, stock, category } = req.body
+    try {
+        if (!title || !description || !code || !price || !stock || !category) {
+            CustomError.createError({
+                name: "Product create error",
+                cause: generateProductErrorInfo({ title, description, code, price, stock, category }),
+                message: "One or more properties were incomplete or not valid",
+                code: EErrors.INVALID_PRODUCT_ERROR
+            })
+        }
+        next()
+    } catch (error) {
+        logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
+        res.status(500).send({ error: `Error en eliminar producto ${error}` })
+        next(error)
     }
 }
