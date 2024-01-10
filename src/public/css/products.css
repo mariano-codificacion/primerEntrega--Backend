@@ -1,0 +1,40 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    margin: 0;
+    padding: 10px;
+    background-color: darkslategrey;
+}
+
+.products {
+	text-align: center;
+	display: flex;
+}
+
+.product-container {
+	
+	text-align: center;
+	align-items: center;
+	
+}
+
+.pagination {
+	
+	text-align: center;
+	align-items: center;
+	
+}
+
+button {
+	width: 120px;
+	height: 60px;
+	margin-bottom: 12px;
+}
+
+.add-button {
+	width: 100px;
+	height: 40px;
+}
+
+h2 {
+	text-align: center;
+}

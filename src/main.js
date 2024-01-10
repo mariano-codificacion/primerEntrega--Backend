@@ -7,6 +7,8 @@ import path from 'path'
 import mongoose from 'mongoose'
 import productModel from './models/products.models.js';
 import messageModel from './models/messages.models.js'
+import cartModel from './models/carts.models.js'
+import userModel from './models/users.models.js'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import initializePassport from './config/passport.js'
@@ -17,6 +19,7 @@ import handlerErrors from './middlewares/errors/handlerErrors.js'
 import { requestLogger } from './middlewares/loggers/requestLogger.js'
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express'
+import { getCurrent } from './controllers/session.controller.js'
 
 const PORT = 4000
 const app = express()
@@ -61,25 +64,6 @@ io.on("connection", (socket) => {
         await messageModel.create(info)
         io.emit('mensajes', mensajes)
     })
-})
-
-
-io.on("connection", (socket) => {
-    console.log("Conexion con Socket.io")
-    socket.on('nuevoProducto', async (prod) => {
-        console.log(prod)
-        await productModel.create(prod)
-        //Deberia agregarse al txt o json mediante addProduct
-        //await productManager.addProduct(prod)
-        socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
-
-    })
-})
-
-io.on("connection", async (socket) => {
-    console.log("Conexion con Socket.io")
-    const products = await productModel.find().lean();
-    socket.emit('lista', products)
 })
 
 app.use(express.json())
@@ -134,18 +118,16 @@ app.get('/static/login', async (req, res) => {
         })
 })
 
-app.get('/static/home', async (req, res) => {
-    const products = await productModel.find().lean();
-    const info = req.query.info;
-    res.render("home", {
-        rutaCSS: "home",
-        rutaJS: "home",
-        products: products,
-        info: info,
-    });
 
-})
-
+app.get('/static/products', (req, res) => {
+	const user = req.query.info;
+	console.log(user);
+	res.render('products', {
+		rutaCSS: 'products',
+		rutaJS: 'products',
+		user: user,
+	});
+});
 //Routes
 
 app.use(requestLogger)

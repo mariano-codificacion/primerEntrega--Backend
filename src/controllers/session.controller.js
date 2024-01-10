@@ -42,7 +42,8 @@ export const postSession = async (req, res) => {
             maxAge: 43200000
         })
         await userModel.findByIdAndUpdate(req.user._id, { last_connection: Date.now() })
-        res.redirect('/static/home?info=' + req.user.rol)
+        res.redirect('/static/products?info=' + req.user.cart)
+        //res.redirect('/static/products')
         //res.status(200).send({ payload: req.user })
     } catch (error) {
         logger.error(`[ERROR] - Date: ${new Date().toLocaleString()} - ${error.message}`)
