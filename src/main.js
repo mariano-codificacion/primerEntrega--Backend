@@ -5,21 +5,16 @@ import { Server } from 'socket.io'
 import { __dirname } from './path.js'
 import path from 'path'
 import mongoose from 'mongoose'
-import productModel from './models/products.models.js';
 import messageModel from './models/messages.models.js'
-import cartModel from './models/carts.models.js'
-import userModel from './models/users.models.js'
 import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import initializePassport from './config/passport.js'
 import passport from 'passport'
 import cookieParser from 'cookie-parser'
 import router from './routes/index.routes.js'
-import handlerErrors from './middlewares/errors/handlerErrors.js'
 import { requestLogger } from './middlewares/loggers/requestLogger.js'
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express'
-import { getCurrent } from './controllers/session.controller.js'
 
 const PORT = 4000
 const app = express()
@@ -59,7 +54,7 @@ const mensajes = []
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
     socket.on('mensaje', async (info) => {
-        console.log(info)
+        //console.log(info)
         mensajes.push(info)
         await messageModel.create(info)
         io.emit('mensajes', mensajes)
@@ -121,7 +116,7 @@ app.get('/static/login', async (req, res) => {
 
 app.get('/static/products', (req, res) => {
 	const user = req.query.info;
-	console.log(user);
+	//console.log(user);
 	res.render('products', {
 		rutaCSS: 'products',
 		rutaJS: 'products',

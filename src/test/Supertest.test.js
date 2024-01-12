@@ -47,7 +47,7 @@ describe("Test de Usuario y carrito", async () => {
 
     expect(status).to.equal(302);
 
-    console.log(`Status: ${__body}`);
+    //console.log(`Status: ${__body}`);
   });
 
   it("Ruta: api/sessions/login con el metodo POST", async function () {
@@ -77,9 +77,9 @@ describe("Test de Usuario y carrito", async () => {
     console.log(user);
     cartId = user.cart;
     userId = user._id
-    console.log("userId " , userId)
-    console.log("cartId ", cartId)
-    console.log(`Token: ${token.name} = ${token.value}`);
+    //console.log("userId " , userId)
+    //console.log("cartId ", cartId)
+    //console.log(`Token: ${token.name} = ${token.value}`);
   });
 
   
@@ -97,7 +97,7 @@ describe("Test de Usuario y carrito", async () => {
         });
         expect(status).to.equal(200)
 
-        console.log("Agregado producto en api carts")
+        //console.log("Agregado producto en api carts")
         
 
     })
@@ -114,8 +114,8 @@ describe("Test de Usuario y carrito", async () => {
 
         expect(status).to.equal(200)
 
-        console.log("Cantidad producto actualizada en api carts")
-        console.log(`Status: ${__body}`)
+        //console.log("Cantidad producto actualizada en api carts")
+        //console.log(`Status: ${__body}`)
     })
   
 
@@ -130,8 +130,8 @@ describe("Test de Usuario y carrito", async () => {
 
         expect(status).to.equal(200)
 
-        console.log("Usuario eliminado en api/users")
-        console.log(`Status: ${__body}`)
+        //console.log("Usuario eliminado en api/users")
+        //console.log(`Status: ${__body}`)
 
     })
 

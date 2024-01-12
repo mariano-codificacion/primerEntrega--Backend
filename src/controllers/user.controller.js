@@ -56,9 +56,9 @@ export const resetpasswordUser = async (req, res) => {
         if (linkData && Date.now() - linkData.timestamp <= 3600000) {
             const { email } = linkData
 
-            console.log(email)
-            console.log(newPassword)
-            console.log(oldPassword)
+            //console.log(email)
+            //console.log(newPassword)
+            //console.log(oldPassword)
 
             const user = await userModel.findOne({ email });
             if (!user) {
@@ -156,7 +156,7 @@ export const deleteInactiveUsers = async (req, res) => {
         
         const timeInactive = new Date(Date.now() - 48 * 60 * 60 * 1000)
 
-        console.log(timeInactive)
+        //console.log(timeInactive)
         //const parsetimeInactive = Date.parse(timeInactive)
         //console.log(parsetimeInactive)
 

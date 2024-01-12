@@ -24,9 +24,9 @@ export const sendRecoveryEmail = (email, recoveryLink) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error)
-            console.log(error)
+            logger.error(error)
         else
-            console.log('Email enviado correctamente')
+            logger.info('Email enviado correctamente')
     })
 }
 
