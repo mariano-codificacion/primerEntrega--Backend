@@ -128,3 +128,10 @@
 {"level":"error","message":"[ERROR] - Date: 10/1/2024, 14:26:17 - Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"carts\""}
 {"level":"error","message":"[ERROR] - Date: 10/1/2024, 14:28:57 - Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"carts\""}
 {"level":"error","message":"[ERROR] - Date: 10/1/2024, 14:29:51 - Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"carts\""}
+{"level":"error","message":"Error al actualizar documentos: TypeError: Cannot read properties of undefined (reading 'map')"}
+{"level":"error","message":"Error al actualizar documentos: TypeError: Cannot read properties of undefined (reading 'map')"}
+{"level":"error","message":"Error al actualizar documentos: TypeError: Cannot read properties of undefined (reading 'map')"}
+{"level":"error","message":"Error al actualizar documentos: TypeError: Cannot read properties of undefined (reading 'map')"}
+{"level":"error","message":"Error al actualizar documentos: TypeError: Cannot read properties of undefined (reading 'map')"}
+{"level":"error","message":"Error al actualizar documentos: CastError: Cast to ObjectId failed for value \":uid\" (type string) at path \"_id\" for model \"users\""}
+{"level":"error","message":"Error al actualizar documentos: CastError: Cast to ObjectId failed for value \":uid\" (type string) at path \"_id\" for model \"users\""}

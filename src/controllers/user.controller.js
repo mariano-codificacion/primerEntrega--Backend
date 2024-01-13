@@ -1,6 +1,7 @@
 import logger from "../utils/logger.js"
 import userModel from "../models/users.models.js"
 import { sendRecoveryEmail, deletionEmail } from "../config/nodemailer.js";
+import { createHash, validatePassword } from '../utils/bcrypt.js';
 import CustomError from "../service/errors/customError.js";
 import EErrors from "../service/errors/enums.js";
 
@@ -120,29 +121,23 @@ export const deleteUser = async (req, res) => {
 }
 
 export const documentsUsers = async (req, res) => {
-    const { id } = req.params;
-
+    
     try {
-        const newFiles = req.files['documents'];
+        const uid = req.params.uid;
+		const newDocuments = req.files.map(file => ({
+			name: file.originalname,
+			reference: file.path,
+		}));
 
-        if (newFiles.length === 0) {
-            logger.error(`No new documents`);
-            return res.status(400).send({ error: 'No new documents' });
-        }
-
-        const user = await userModel.findById(id);
+        const user = await userModel.findById(uid);
         if (!user) {
-            logger.error(`Usuario no encontrado: ${id}`);
+            logger.error(`Usuario no encontrado: ${uid}`);
             return res.status(404).send({ error: `Usuario no encontrado: ${id}` });
         }
-
-        newFiles.forEach((file) => {
-            user.documents.push(file.filename);
-        });
-
+		user.documents.push(...newDocuments);
         await user.save();
 
-        logger.info(`Documentos agregado en el usuario ${id}`);
+        logger.info(`Documentos agregado en el usuario ${uid}`);
         return res.status(200).send({ resultado: 'OK', message: 'Documentos agregado correctamente' });
     } catch (error) {
         logger.error(`Error al actualizar documentos: ${error}`);
